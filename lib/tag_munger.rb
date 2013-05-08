@@ -54,6 +54,7 @@ class TagMunger
   #
   # ie: makes album tag "D01_10d" for a file named D01_1910_Disc_English_10d.mp3 
   def fix_album_tags
+    file_list = []
     file_list = select_files("#{@library_root}/**/D[0-9][0-9]_*.mp3")
 
     album_name = ""
@@ -66,9 +67,9 @@ class TagMunger
       album_name = [ w[0],  w[-1].chomp(".mp3")].join("_")
       temp_hash[name] = album_name
     end
-    puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
 
     if !@dry_run then
+      puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
       temp_hash.each do |file_name, album_tag|
         ok = TagLib::FileRef.open(file_name) do |f|
           tag = f.tag
@@ -80,6 +81,7 @@ class TagMunger
         end
       end
     else #@dry_run == true
+      puts "You are in dry run mode.\nIf you weren't in dry run mode the following changes would be made:"
       pp temp_hash.sort
     end
     puts "finished the global album name fix."
@@ -87,6 +89,7 @@ class TagMunger
   private
 
   def select_files(match_string)
+    file_list=[]
     Dir.glob(match_string) do |name|
       file_list << name
     end
@@ -95,5 +98,6 @@ class TagMunger
     else
       pp "file_list is #{file_list.count} long."
     end
+    file_list
   end
 end

@@ -1,0 +1,438 @@
+#!/usr/bin/env ruby
+
+# the purpose of this script is to make the mp3 files in the 
+# tape library show up as logical albums.
+# This generally means making an album for each day of a course.
+# It also requires duplicating certain mp3 file which are played
+# on each day (ie Workers Metta)
+#
+# I've tried to document all duplications below
+#
+# Workers metta (duplicate created for each day of the course, plus left in it's own album)
+# 10day morning chantings (duplicated once and put in an album called 10d Morning Chantings?)
+# Tikapatthana (Not duplicatted, instead it should just be included in each courses library)
+#
+
+# I've put all of the easy/ programatic tag changes at the top of the script.
+# After that's been done we do the duplication and custom/non logical changes.
+#
+
+require 'taglib'
+require 'fileutils'
+require 'pp'
+# set DRY_RUN to true to just print out the changes that 
+# would be made if DRY_RUN was false. (false makes the changes to 
+# the album tags, true prints out the changes that would be made
+# ----> this should be changed to a command line option, 
+# defaulting to dry run/ printing a report of what would happen,
+# then setting --dryrun true would make the actual changes.
+#
+#DRY_RUN = true
+DRY_RUN = false
+
+#### this is poor Ruby. it's left over from when the script
+# was a shell script.
+# This whole thing needs to be re-written and an object should
+# be created which checks the directories for existance and permission
+# and which keeps track of / provides the directory names.
+#
+# for the moment I'm just throwing this bit of duplicated code
+# into a function, until the object version of this is written.
+
+LIBRARY_ROOT = "./"
+def dupes_dir()
+  the_dupes_dir= LIBRARY_ROOT + "Sonos Customizations"
+  if !File.exists?(the_dupes_dir) then
+    puts "#{the_dupes_dir} does not seem to exist.... creating it."
+    Dir.mkdir(the_dupes_dir)
+  end
+  return the_dupes_dir
+end
+
+#############
+# duplicate the 10day chantings,changing their name to include 10d at the end, moving them into a duplicates directory.
+# set the track number of the these duplicate chantings to be 1
+#
+# These duplicates are stored in the directory returned by dupes_dir()
+##################################
+puts "duplicating the 10day morning chantings and mucking about with their track number"
+MORNING_CHANTINGS_DIR="10 Day Morning Chantings"
+orig_chantings_dir= LIBRARY_ROOT  + MORNING_CHANTINGS_DIR 
+
+# check to see that the directories exist and create them if they don't.
+if !File.exists?(orig_chantings_dir) then
+  puts "uh-oh. Expecting to find the morning chantings in #{orig_chantings_dir} but that dir does not exist."
+  exit
+end
+sonos_dupes_dir= dupes_dir()
+
+chantings_dupe_dir = sonos_dupes_dir + "/10 Day Morning Chantings"
+if !File.exists?(chantings_dupe_dir) then
+  FileUtils.mkdir(chantings_dupe_dir)
+end
+
+# duplicate the morning chantings into the duplicate directory,
+# changing their name to end with _10d.mp3 (so that the global album
+# name sections acts on them), and change their
+# track number to be 1 so that it shows up first in the days list
+# These duplicate files are meant to be included in 10 day courses.
+# The files inthe original 10 Day Morning Chanting directory are meant
+# to be used on other courses/ workperiods.
+Dir.glob(orig_chantings_dir + "/*.mp3") do |chantingFile|
+  new_name = "#{chantings_dupe_dir}/" + File.basename(chantingFile).chomp(".mp3") + "_10d.mp3"  # sub _10d.mp3 for .mp3
+  FileUtils.cp(chantingFile,new_name)
+  
+  ok = TagLib::FileRef.open(new_name) do |f|
+    tag = f.tag
+    pp "#{chantingFile} track was #{tag.track}"
+    tag.track = 1
+    pp "#{chantingFile} track is now #{tag.track}"
+    f.save
+  end
+  if ok == false then
+    puts "uh-oh.  There was a problem saving / opening #{chantingFile} while trying to set track  number to 1"
+  end
+end
+puts "finished duplicating the 10day morning chantings and mucking about with their track number"
+
+#########################################
+# Global fixing of album tags.
+# dummy_name = "D01_1910_Disc_English_10d.mp3"
+#
+# Set all mp3 files that start with D## to have an 
+# album tag of D##_courseType.  (find all files matching
+# "D[#][#]*.mp3"  ( start with D##, end with .mp3 )
+# ie: makes album tag for D01_1910_Disc_English_10d.mp3 D01_10d
+#
+#
+puts "beginning the giant global album name fix."
+file_list = []
+library_root = "./"
+
+Dir.glob(library_root + "**/D[0-9][0-9]_*.mp3") do |name|
+  file_list << name
+end
+if file_list.length == 0
+  pp "empty file list from root: #{library_root}"
+else
+  pp "file_list is #{file_list.count} long."
+end
+
+album_name = ""
+temp_hash = Hash.new
+
+# create album_name from file name 
+# "D09_0855_GS_10d.mp3" gets album "D09_10d"
+# and store that info in a list (hash file_name => album_name)
+file_list.each do |name|
+    w = (File.basename(name)).split("_")
+    album_name = [ w[0],  w[-1].chomp(".mp3")].join("_")
+    temp_hash[name] = album_name
+end
+puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
+
+if !DRY_RUN then
+  temp_hash.each do |file_name, album_tag|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = album_tag
+      f.save
+    end
+    if ok == false then
+      puts "uh-oh.  There was a problem saving / opening #{file_name}"
+    end
+  end
+else #DRY_RUN = true
+pp temp_hash.sort
+end
+puts "finished the global album name fix."
+########## END OF Global fixing of album tags###############
+
+#####################################################
+# Now that the basic change has been done.  
+# Make the duplicates and do the tricky changes.
+# #################
+# FYI:
+# current tape library name scheme:
+#   STP : Satipatthana
+#   TSC : Teacher's Self Course
+#   SPL or 10dSpl : Special 10
+##################
+#########################################
+# Set track number of all discourse files to be 200.
+# this high track number is necessary because of high track numbers
+# associated with long course file (45 day course has tracks in the 100's).
+# There is an expectation that all files with a filename containing
+# _Disc_ are discourse file.
+#
+# this is being done to ensure that the discourses show up last on the 
+# days album.
+#
+# There is redundancy between this section and the global album name
+# section. That is on purpose, because the global album name 
+# loop takes a long time. If we only need to modify the track
+# number of the discourse files, the code below allows us to
+# do that more quickly then if we process all D##_*.mp3 files.
+#
+puts "beginning the giant global discourse track fix."
+file_list = []
+library_root = "./"
+
+Dir.glob(library_root + "**/D[0-9][0-9]_*_Disc_*.mp3") do |name|
+  file_list << name
+end
+if file_list.length == 0
+  pp "empty file list from root: #{library_root}"
+else
+  pp file_list if DRY_RUN
+  pp "file_list is #{file_list.count} long."
+end
+puts "got the file list. Beginning to set the track numbers."
+file_list.each do |file_name|
+  ok = TagLib::FileRef.open(file_name) do |f|
+    tag = f.tag
+    tag.track = 200
+    f.save
+  end
+  if ok == false then
+    puts "uh-oh.  There was a problem saving / opening #{file_name}"
+  end
+end
+puts "finished the giant global discourse track fix."
+########## END OF Global fixing of discourse track number ###############
+
+##################################
+# set the original chantings to have an album name of 10 Day Chantings.
+# These files are for use in non-10day courses (long courses, workperiods, 
+# and other times when we want ace
+# The duplicated 10day morning chanting files were handled before the 
+# global album name change so that they will show up on the appropriate 
+# day of a 10 day course. 
+#
+###################
+puts "duplicating the 10day morning chantings and mucking about with their track number"
+MORNING_CHANTINGS_DIR="10 Day Morning Chantings"
+orig_chantings_dir= LIBRARY_ROOT  + MORNING_CHANTINGS_DIR 
+
+# check to see that the directories exist and create them if they don't.
+if !File.exists?(orig_chantings_dir) then
+  puts "uh-oh. Expecting to find the morning chantings in #{orig_chantings_dir} but that dir does not exist."
+  exit
+end
+
+## set original 10day chanting files to all be in an album named 10 Day Morning Chanting
+Dir.glob(orig_chantings_dir + "/*.mp3") do |chantingFile|
+  ok = TagLib::FileRef.open(chantingFile) do |f|
+    tag = f.tag
+    tag.album = "10 Day Morning Chanting"
+    f.save
+  end
+  if ok == false then
+    puts "uh-oh.  There was a problem saving / opening #{chantingFile} while trying to set track  number to 1"
+  end
+end
+puts "finished dealing with 10d morning chantings"
+#####################
+# all files in the Groupsittings folder get put in albums
+# named as follows: bla_blah-Instr_E_GS.mp3 gets an album
+# tag of E_GS, this separates the group sittings by language.
+#
+# English and hindi-english should be included in the workperiod
+# and 30/45day shared libraries.
+####################
+puts "assigning album name Group Sittings to all continuous groups sitting files."
+GROUP_SITS_DIR= LIBRARY_ROOT + "Groupsittings"
+if File.exists?(GROUP_SITS_DIR) then
+  Dir.glob(GROUP_SITS_DIR + "**/*.mp3") do |file_name|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = "_Group Sittings"
+      f.save
+    end
+  end
+else
+  puts "uh-oh. #{GROUP_SITS_DIR} does not seem to exist."
+  exit
+end
+puts "finished dealing with group sittings files."
+
+###########################
+# Give Special Chantings/Dohas/*.mp3 files the album title of Dohas
+#
+# Give Special Chantings/*.mp3 files the album title of Special_Chanting
+#
+# These courses should include the original 10 day morning chanting directory
+# 30/45
+# TSC
+# Workperiod
+# 
+# 10Day courses should include the duplicated 10day morning chantings directory
+#
+###########################
+puts "assigning album name Dohas to the dohas files"
+DOHAS_DIR="Special Chantings/Dohas"
+working_dohas_dir= LIBRARY_ROOT  + DOHAS_DIR 
+
+if File.exists?(working_dohas_dir) then
+  Dir.glob(working_dohas_dir + "/*.mp3") do |file_name|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = "_Dohas"
+      f.save
+    end
+    if ok == false then
+      puts "uh-oh.  There was a problem saving / opening #{file_name}"
+    end
+  end
+else
+  puts "uh-oh. #{working_dohas_dir} does not seem to exist."
+end
+puts "finished assigning album name Dohas to the dohas files"
+
+puts "assigning album name Special Chantings to the chantings in the special chantings directory."
+CHANTINGS_DIR="Special Chantings"
+working_chantings_dir= LIBRARY_ROOT  + CHANTINGS_DIR 
+
+if File.exists?(working_chantings_dir) then
+  Dir.glob(working_chantings_dir + "/*.mp3") do |file_name|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = "_Special Chantings"
+      f.save
+    end
+    if ok == false then
+      puts "uh-oh.  There was a problem saving / opening #{file_name}"
+    end
+  end
+else
+  puts "uh-oh. #{working_chantings_dir} does not seem to exist."
+end
+
+puts "finished assigning album namd to Special Chantings"
+
+###########################
+# Gongs are found in Additional Course Material/Gongs and Bells/Cell Gongs
+#
+# they should all be on the gong album and the directory should be 
+# included (as a link) in the 20, 30, 45, and 10dSpl directories.
+#
+###########################
+puts "assigning gong files to the Gongs album"
+GONG_DIR="Additional Course Material/Gongs and Bells/Cell Gongs"
+orig_gong_dir= LIBRARY_ROOT  + GONG_DIR
+
+if File.exists?(orig_gong_dir) then
+  Dir.glob(orig_gong_dir + "/*.mp3") do |file_name|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = "_Gongs"
+      f.save
+    end
+  end
+else
+  puts "uh-oh. #{orig_gong_dir} does not seem to exist."
+end
+
+# so that it will show up in each days album on courses lasting up to 10 days.
+dupe_dir= dupes_dir()
+dupe_gong_dir = "#{dupe_dir}/VMC gong"
+if !File.exists?(dupe_gong_dir) then 
+  FileUtils.mkdir(dupe_gong_dir) #create the directory to store the duplicated gong files
+end
+FileUtils.cp("#{orig_gong_dir}/Gong_Medium-2_3x.mp3",dupe_gong_dir)
+
+###########################
+# Worker's metta file needs to be duplicated
+# and renamed with D00 to D10 prefix
+# and given album title of the Day number. ---> since this day number
+#   titling is done for the whole disk we do this duplicating before the other
+#   that processing.
+# These dupes need to reside in their own Mettadupes directory
+# and that directory should be included in all shared libraries
+#
+# Regular/non duplicated files in the workers metta directory should be
+# given the album tag of Worker's Metta  so that whole directory can
+# be included if a teacher wants a billingual metta to be played on a 
+# non-bilingual course.
+###########################
+puts "beginning workers metta section."
+WORKERS_METTA_DIR="Workers Metta v.2005"
+orig_metta_dir= LIBRARY_ROOT + WORKERS_METTA_DIR
+
+# duplicate worker's metta file (english)to create files with a prefix of  D00-D10
+# so that it will show up in each days album on courses lasting up to 10 days.
+dupe_dir= dupes_dir()
+dupe_metta_dir = dupe_dir + "/Workers Metta"
+english_metta_file = orig_metta_dir + "/WMetta_English.mp3"
+
+if !File.exists?(dupe_metta_dir) then 
+  FileUtils.mkdir(dupe_metta_dir) #create the directory to store the duplicated metta files
+end
+
+0.upto(10)  do |i|
+  dupe_file = "#{dupe_metta_dir}/D%02d_WMetta_English.mp3" %i
+  #puts "copying #{english_metta_file} to #{dupe_file}"
+  FileUtils.cp(english_metta_file, dupe_file)
+
+## set duplicated workers metta files to all be track #1 so that they 
+# show up first in the day's album.
+
+  ok = TagLib::FileRef.open(dupe_file) do |f|
+    tag = f.tag
+    tag.track = 50 
+    f.save
+  end
+  if ok == false then
+    puts "uh-oh.  There was a problem saving / opening #{chantingFile} while trying to set track  number to 1"
+  end
+end
+# set album tag for original worker's metta files to be Worker's Metta
+if File.exists?(orig_metta_dir) then
+  Dir.glob(orig_metta_dir + "/*.mp3") do |file_name|
+    ok = TagLib::FileRef.open(file_name) do |f|
+      tag = f.tag
+      tag.album = "_Worker's Metta"
+      f.save
+    end
+  end
+else
+  puts "uh-oh. #{orig_metta_dir} does not seem to exist."
+  exit
+end
+
+  
+###########################
+# SpecialChantings/Tikapatthana-U_Ba_Khin.mp3
+# needs to be included in every course
+# --> duplication doesn't solve the problem.
+# --> instead, include the file in each course, It will show up
+# --> in an album called Special Chantings.
+###########################
+
+
+###########################
+#  THIS REQUEST CANCELLED
+# library for 30/45 day course should include 
+# the 45d[15A] material
+#
+###########################
+
+###########################
+# STP (Satipatthana course) needs to have the chanting 
+# from Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3
+# included in every day. but not the other daily chantings
+# from the 10day
+#
+###########################
+# Special Chantings/Satipatthana_Sutta_Jan_1985_WSM.mp3 file needs to be duplicated
+# and renamed with D01 to D09 prefix
+# and given respective album title.
+# Duplicates need to reside in their own STPdupes directory
+# which needs to be included in the satipatthana library
+###########################
+
+##########################
+#  3 Day course should have a chanting album
+#  containing all chantings with the album title tag of Chanting
+#
+##########################
