@@ -7,7 +7,6 @@
 # our album name generator for mp3 files in the "tape library"
 # 
 
-#$LOAD_PATH.push File.expand_path("../../lib",__FILE__)
 require 'optparse'
 require_relative '../lib/tag_munger' #the class that handles our munging
 
@@ -19,8 +18,12 @@ options[:directory] = "."
 options[:dry_run] = true
 
 
+if ARGV.count == 0 #print help text if no options supplied
+  ARGV << "--help"
+end
+
 OptionParser.new do |opts|
-  opts.banner = "Usage: tag_utility.rb [options] ***Defaults to dry_run/report mode***\n\t\tSpecify --write-changes option to actually change tags"
+  opts.banner = "\nUsage: tag_utility [options] \n\t\t***tag_utility defaults to dry_run/report mode***\n\t\t***Use --write-changes option to actually change tags***"
   opts.version = VERSION
 
   opts.on("-b [FLAGS]","--browse [FLAGS]",\
@@ -37,7 +40,7 @@ OptionParser.new do |opts|
     options[:albums] = a
   end
 
-  opts.on("--write-changes", "Changes the tags in the files (takes you out of dry run mode)") do |w|
+  opts.on("--write-changes", "Changes the tags in the files (takes you out of dry run mode)\n\n") do |w|
     options[:dry_run] = false
   end
   
