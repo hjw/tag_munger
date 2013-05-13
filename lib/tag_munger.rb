@@ -4,13 +4,32 @@ require 'fileutils'
 require 'taglib'
 require 'pp'
 
+###########################################
+# TagMunger is a class that we use to manipulate mp3 tags.
+# It uses the external library 'taglib' and has a number of
+# methods which are very specific to the things that VMC chooses
+# to do to mimic the old minidisc organization when using
+# the Sonos system.
 class TagMunger
   
+  #########################################
+  # The TagMunger object defaults to work on the current directory
+  # and to have non-destructive behavior. You can, of course pass in parameters
+  # to override this behavior
   def initialize(library_root=".", dry_run=true)
     @library_root = library_root
     @dry_run = dry_run
   end
 
+  ########################################
+  # Display the album and track tags for 
+  # mp3 files in the library. You can pass in an array
+  # of strings with the tags that you'd like to check.
+  #
+  # This method simply outputs to stdout.
+  #
+  # Prints out the file name, and then the requested tags
+  # for each mp3 file in the library directory tree
   def browseLibrary(which_tags)
     file_list = []
     tags = [ "album", "track"]
@@ -43,16 +62,14 @@ class TagMunger
     end
   end
   #########################################
-  # def fix_album_tags
-  # Global fixing of album tags.
-  # dummy_name = "D01_1910_Disc_English_10d.mp3"
+  # Global fixing of album tags. (Runs in the librayr_root directory tree)
   #
   # Set all mp3 files that start with D## to have an 
   # album tag of D##_courseType.  
   # 
   # The course type is scraped from the file name.
   #
-  # ie: makes album tag "D01_10d" for a file named D01_1910_Disc_English_10d.mp3 
+  # ie: fix_album_tags sets album tag to *D01_10d* for a file named *D01_1910_Disc_English_10d.mp3*
   def fix_album_tags
     file_list = []
     file_list = select_files("#{@library_root}/**/D[0-9][0-9]_*.mp3")

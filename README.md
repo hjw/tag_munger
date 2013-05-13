@@ -9,3 +9,7 @@ and "fixing" of the album tags so that the are grouped by course day.
 
 As a reminder: We muck about with the album tags for the tape library files so 
 that we can mimic the minidisc setup, where each day is its own disk/album.
+
+You can run the rdoc command from the root directory of this code to generate
+documentation. The nicest wat to view it is to open the generated doc/index.html
+file with your browser.
