@@ -22,7 +22,7 @@ class TagMunger
   end
 
   ########################################
-  # Display the album and track tags for 
+  # Display the album,artist and track tags for 
   # mp3 files in the library. You can pass in an array
   # of strings with the tags that you'd like to check.
   #
@@ -32,7 +32,7 @@ class TagMunger
   # for each mp3 file in the library directory tree
   def browseLibrary(which_tags)
     file_list = []
-    tags = [ "album", "track"]
+    tags = [ "album", "artist", "track"]
     if which_tags
       tags.select! { |t| which_tags.include?(t)}
     end

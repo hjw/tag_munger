@@ -27,7 +27,7 @@ OptionParser.new do |opts|
   opts.version = VERSION
 
   opts.on("-b [FLAGS]","--browse [FLAGS]",\
-          "\n\t\tDisplay the current mp3 metadata.\n\t\tTakes optional, comma separated list of tags you're interested in (album,track)") do |flags|
+          "\n\t\tDisplay the current mp3 metadata.\n\t\tTakes optional, comma separated list of tags you're interested in (album,artist,track)") do |flags|
     options[:browse] = flags || true
   end
 
@@ -35,7 +35,7 @@ OptionParser.new do |opts|
     options[:directory] = library_root
   end
 
-  opts.on("-a","--albums", "Derive new album tag for mp3 files") do |a|
+  opts.on("-a","--albums", "Derive new album tag for mp3 files and output them to the screen. You need to specify the write-changes option to actually change the album tags.") do |a|
     # runs the generic album name generator. Does a dry run by default
     options[:albums] = a
   end
