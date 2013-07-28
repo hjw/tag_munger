@@ -40,6 +40,10 @@ OptionParser.new do |opts|
     options[:albums] = a
   end
 
+  opts.on("-e FILENAME", "--edit FILENAME", "Interactive editing of tags for given file. Accepts limited globbing on filename.") do |file_name|
+    options[:edit] = file_name
+  end
+
   opts.on("--write-changes", "Changes the tags in the files (takes you out of dry run mode)\n\n") do |w|
     options[:dry_run] = false
   end
@@ -59,3 +63,6 @@ if options.has_key?(:albums)
   tagger.fix_album_tags
 end
 
+if options.has_key?(:edit)
+  print "--edit option was specified with filename: #{options[:edit]}\n"
+end
