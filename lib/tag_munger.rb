@@ -61,6 +61,40 @@ class TagMunger
       end
     end
   end
+
+  ################################################################
+  # Interactively edit tags. Given a file name,
+  # displays tag info, prompts for tag to edit, changes that tag.
+  #
+  #####NOT WORKING YET!
+  def interactiveEdit(fileName)
+    file_list = []
+    tags = [ "album", "artist", "track", "genre"]
+
+    Dir.glob(fileName) do |name|
+      file_list << name
+    end
+
+    if file_list.length == 0
+      pp "Could not find files matching #{@fileName}"
+    else
+      pp "Found #{file_list.count} files matching #{@fileName}."
+    end
+
+    file_list.each do |name|
+      ok = TagLib::FileRef.open(name) do |f|
+        output = "#{name} --> \n"
+        tags.each do |t|
+          output << " #{t}: #{f.tag.send(t)}\n"
+        end
+        puts output
+      end
+      if ok == false then
+        puts "uh-oh. There was a problem opening #{name}"
+      end
+    end
+  end
+
   #########################################
   # Global fixing of album tags. (Runs in the librayr_root directory tree)
   #
@@ -117,4 +151,5 @@ class TagMunger
     end
     file_list
   end
+
 end

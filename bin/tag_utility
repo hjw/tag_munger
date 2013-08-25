@@ -31,21 +31,21 @@ OptionParser.new do |opts|
     options[:browse] = flags || true
   end
 
-  opts.on("-d LIBRARY_ROOT","--directory LIBRARY_ROOT", "Where to find the mp3 files") do |library_root|
-    options[:directory] = library_root
-  end
-
   opts.on("-a","--albums", "Derive new album tag for mp3 files and output them to the screen. You need to specify the write-changes option to actually change the album tags.") do |a|
     # runs the generic album name generator. Does a dry run by default
     options[:albums] = a
   end
 
-  opts.on("-e FILENAME", "--edit FILENAME", "Interactive editing of tags for given file. Accepts limited globbing on filename.") do |file_name|
-    options[:edit] = file_name
-  end
-
   opts.on("--write-changes", "Changes the tags in the files (takes you out of dry run mode)\n\n") do |w|
     options[:dry_run] = false
+  end
+  
+  opts.on("-d LIBRARY_ROOT","--directory LIBRARY_ROOT", "Where to find the mp3 files") do |library_root|
+    options[:directory] = library_root
+  end
+
+  opts.on("-e FILENAME", "--edit FILENAME", "Interactive editing of tags for given file. Accepts limited globbing on filename.") do |file_name|
+    options[:edit] = file_name
   end
   
 end.parse!
@@ -64,5 +64,6 @@ if options.has_key?(:albums)
 end
 
 if options.has_key?(:edit)
-  print "--edit option was specified with filename: #{options[:edit]}\n"
+  print "--edit option was specified with filename: #{options[:edit]}\nThis function is not yet working"
+  tagger.interactiveEdit(options[:edit])
 end
