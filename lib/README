@@ -1,0 +1,8 @@
+tag_munger.rb is the file containing active code. The other files in this
+directory are old files that were used as this code was developed. The
+tag_munger.rb file is the object oriented version of this code; it 
+defines TagMunger objects.
+
+Along the way the functionality provided by TagMunger has been provided by
+shell scripts as well as a collection of ruby code. This history is what is 
+contained in the other files in this directory.
