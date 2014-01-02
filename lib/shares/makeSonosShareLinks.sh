@@ -9,19 +9,14 @@ AUDIOBASE='/share/HDA_DATA/AudioLibrary' # Source: base directory of audio libra
 #
 PROGNAME="`/usr/bin/basename $0`"
 FATAL="$PROGNAME: fatal:"
-# NOTE: ln options available on QNAP TS-112 NAS
-#	-s	make symbolic links instead of hard links
-#	-f	remove existing destination files
-#	-n	no dereference symlinks - treat like normal file
-# find $SHAREDIR -type l -delete # erase old links NOTE: -delete does not work on NAS, how to safely update links?
 
-# check source
+#--- check source
 if [ ! -d $AUDIOBASE ]
 then
 	echo "$FATAL folder $AUDIOBASE does not exist"; exit 100
 fi
 
-# make 1Day_EN links
+#--- make 1Day_EN links
 SHAREDIR="$SHAREBASE/1Day_EN"
 if [ -d $SHAREDIR ]
 then
@@ -33,7 +28,30 @@ else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
 
-exit 0  # stuff below not ready to run ------------------------------------------------------------------
+#--- make 3Day_EN links
+SHAREDIR="$SHAREBASE/3Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Morning Chantings' # 10 Day Morning Chantings -> /share/BarryLibrary/10 Day Morning Chantings/
+	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D English-only/3D English Discourses' # 3D English Discourses -> /share/BarryLibrary/3 Day Course Sets/3D English-only/3D English Discourses/
+	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D English-only/3D English Instructions' # 3D English Instructions -> /share/BarryLibrary/3 Day Course Sets/3D English-only/3D English Instructions/
+	# ln -sfn  $AUDIOBASE/'WHAT GOES HERE?' # Discourse_on_Dhamma_Service_English.mp3 -> /share/BarryLibrary/Dhamma Service/Discourse on Dhamma Service v.85/Discourse_on_Dhamma_Service_English.mp3
+	ln -sfn  $AUDIOBASE/Special\ Chantings/Tikapatthana-U_Ba_Khin.mp3 # Tikapatthana-U_Ba_Khin.mp3 -> /share/BarryLibrary/Special Chantings/Tikapatthana-U_Ba_Khin.mp3
+	ln -sfn  $AUDIOBASE/Worker\'s\ Metta/Workers\ Metta\ 2005/2105_WM_English_2005.mp3 WorkersMetta_EN_2005 # WMetta_English.mp3 -> /share/BarryLibrary/Workers Metta v.2005/WMetta_English.mp3
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+exit 0  #-------- stuff below not ready to run ------------------------------------------------------------------
+
+
+# NOTE: ln options available on QNAP TS-112 NAS
+#	-s	make symbolic links instead of hard links
+#	-f	remove existing destination files
+#	-n	no dereference symlinks - treat like normal file
+# find $SHAREDIR -type l -delete # erase old links NOTE: -delete does not work on NAS, how to safely update links?
+
 
 # make 1Day_EN links
 cd /share/HDA_DATA/1Day_EN
