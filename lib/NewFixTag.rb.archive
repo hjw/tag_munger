@@ -8,7 +8,10 @@
 #
 # I've tried to document all duplications below
 #
-# Workers metta (duplicate created for each day of the course, plus left in it's own album)
+#---> NOT DONE ----> Workers metta (duplicate created for each day of the course, plus left in it's own album)
+#  Worker's metta, instead should be in it's own album and each course, as workperiods should include the 
+#  whole worker's metta directory --> requested by Kate, seconded by other AT's who like to play
+#  workers metta in different languages as they choose.
 # 10day morning chantings (duplicated once and put in an album called 10d Morning Chantings?)
 # Tikapatthana (Not duplicatted, instead it should just be included in each courses library)
 #
@@ -27,8 +30,8 @@ require 'pp'
 # defaulting to dry run/ printing a report of what would happen,
 # then setting --dryrun true would make the actual changes.
 #
-#DRY_RUN = true
-DRY_RUN = false
+DRY_RUN = true
+#DRY_RUN = false
 
 #### this is poor Ruby. it's left over from when the script
 # was a shell script.
