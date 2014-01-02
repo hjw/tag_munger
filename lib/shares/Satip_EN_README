@@ -1,0 +1,15 @@
+
+
+# STP English Instructions -> /share/BarryLibrary/WWL_HDD/STP Course Sets/STP English-only/STP English Instructions/@
+# Satipatthana_Sutta_Jan_1985_wSM.mp3 -> /share/BarryLibrary/WWL_HDD/Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3@
+# Tikapatthana-U_Ba_Khin.mp3 -> /share/BarryLibrary/WWL_HDD/Special Chantings/Tikapatthana-U_Ba_Khin.mp3@
+# Discourse on Dhamma Service -> /share/BarryLibrary/Dhamma\ Service/Discourse\ on\ Dhamma\ Service\ v.85/Discourse_on_Dhamma_Service_English.mp3
+# WMetta_English.mp3 -> /share/BarryLibrary/WWL_HDD/Workers Metta v.2005/WMetta_English.mp3@
+
+
+
+ln -s /share/BarryLibrary/STP\ Course\ Sets/STP\ English-only/STP\ English\ Instructions
+ln -s /share//BarryLibrary/Special\ Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3
+ln -s /share/BarryLibrary/Dhamma\ Service/Discourse\ on\ Dhamma\ Service\ v.85/Discourse_on_Dhamma_Service_English.mp3
+ln -s /share/BarryLibrary/Special\ Chantings/Tikapatthana-U_Ba_Khin.mp3
+ln -s /share/BarryLibrary/Workers\ Metta\ v.2005/WMetta_English.mp3

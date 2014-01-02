@@ -1,0 +1,20 @@
+# Sonos Shared Volume list
+#	- on VMC Audio NAS Drive
+#	- for use by Sonos audio system
+#	- based on what is needed for upcoming courses
+
+# 10 Day courses
+10Day_EN
+
+# short courses
+1Day_EN
+3Day_EN
+
+# long and special courses
+20Day_EN
+30Day_EN
+45Day_EN
+
+# other
+AudioLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
+VideoLibrary # the video MP4 library, reserved for future use (by the Western Digital MP4 player?)
