@@ -79,23 +79,43 @@ class TapeLibCustomizations
   # and to have non-destructive behavior. You can, of course pass in parameters
   # to override this behavior ----> this function is currently
   # duplicated in the TagMunger class and should be refactored <-----
-  def initialize(library_root=".", dry_run=true)
+  def initialize(library_root=".", custom_dir="SonosCustomizations",morning_chantings_dir="10 Day Morning Chantings",
+                 group_sits_dir="Groupsittings",
+                 dohas_dir="Dohas",
+                 special_chantings_dir="Special Chantings",
+                 gongs_dir="Gongs",
+                 metta_dir="Workers Metta v.2005",
+                 dry_run=true)
     @library_root = library_root
     @dry_run = dry_run
   end
 
   ########################################
   # Check for a directory called Sonos-Customizations
-  # and create if it doesn't exhist. If it does exhist
+  # and create if it doesn't exist. If it does exist
   # print out it's contents.
-  # returns true if the directory exhists or is successfully
+  # returns true if the directory exists or is successfully
   # created.
-  def custom_directory?
-     # directory exists?
-       # print dir path and contents
-       # return true
-     # else create directory
-  end 
+  # report on the existance and location of the 
+  # SonosCustomizations directory
+  #####################################
+  def customization_dir_exists?(lib_root=".")
+    Dir.glob("#{lib_root}/**/SonosCustomizations") do |name|
+      custom_dirs << name
+    end
+    number_of_dirs_found = custom_dirs.length
+    if number_of_dirs_found == 0
+      puts "I don't see a SonosCustomizations directory in the directory tree below #{lib_root}"
+    else if number_of_dirs_found >=2
+      puts "Uh-oh, I found more than one directory in my search."
+      custom_dirs.each { |x| puts x}
+    else
+      puts "Found #{custom_dirs} containing the following files and directories:"
+      Dir.foreach(custom_dirs[0]) { |x| File.directory?(x) ? puts " #{x} (Directory)": puts "#{x} "}
+    end
+    custom_dirs
+  end
+
 
   ########################################
   # Print report of the passed in directory tree
@@ -104,15 +124,32 @@ class TapeLibCustomizations
   # List mp3 files that DO match "#{@library_root}/**/D[0-9][0-9]_*.mp3"
   #   matches are currently found using a private select method
   #   which happens to use Dir.glob to find the files
-  def lib_browser
+  def lib_browser(lib_root=".")
+
+    file_list = []
+    file_list = select_files("#{lib_root}/**/*")
+
+    pp "^^^^^^^^^^^^^^^^^^^^^^^^^"
+    pp "The following mp3 files which do not seem to belong to courses:"
+    puts file_list.select { |f| f =~ /[^D]*\.mp3$/}
+
+    pp "^^^^^^^^^^^^^^^^^^^^^^^^^"
+    pp "The following files will be put into course albums:"
+    puts file_list.select { |f| f =~ /D[0-9][0-9]*\.mp3$/}
+
+    pp "^^^^^^^^^^^^^^^^^^^^^^^^^"
+    pp "These are the non-mp3 files in the library:"
+    puts file_list.reject { |f| f =~ /*\.mp3$/}
+
+
   end
 
   #######################################
-  # Create copies of the desired files and puts 
+  # Create copies of the desired files and put 
   # them into the customizations directory.
   #
   # Also customizes their mp3 metadata tags.
-  def fill_customization_director
+  def fill_customization_directory
   end
 
   ########################################
