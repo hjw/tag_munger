@@ -3,9 +3,18 @@
 # designed to be copied to QNAP TS-112 NAS drive and run locally via ssh
 #
 # 2014-01-02 CDM File Created, based on 2012 library, for use with WWL 2013
-#
+
+# Base directories and common files
+# NOTE: we are expecting links below should not have a trailing slash
 SHAREBASE='/share/HDA_DATA' # Destination: base directory of shared folders where we create links
 AUDIOBASE='/share/HDA_DATA/AudioLibrary' # Source: base directory of audio library
+STD_DS_DISCOURSE=$AUDIOBASE/'Dhamma Service/Discourse on Dhamma Service v.85/Discourse_on_Dhamma_Service_English.mp3'
+STD_TIKIPATTHANA=$AUDIOBASE/'Special Chantings/Tikapatthana-U_Ba_Khin.mp3'
+STD_WORKERSMETTA=$AUDIOBASE/'Special Chantings/Workers Metta 2005' # all languages of Workers Metta
+STD_MORNING_CHANTINGS=$AUDIOBASE/'10 Day Morning Chantings' # tagged with "10 Day Morning Chanting" for a separate album
+MIXED_IN_MORNING_CHANTINGS=$AUDIOBASE/'Sonos Customizations/10 Day Morning Chantings' # "_10d" added to file name so they go to correct Dxx_10d album
+MIXED_IN_HINDI_PDI=$AUDIOBASE/'Sonos Customizations/10D_Hindi_PDI' # to add to Dxx_10d albums that may have other languages
+
 #
 PROGNAME="`/usr/bin/basename $0`"
 FATAL="$PROGNAME: fatal:"
@@ -20,10 +29,10 @@ fi
 SHAREDIR="$SHAREBASE/1Day_EN"
 if [ -d $SHAREDIR ]
 then
-	cd $SHAREDIR
+	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'1 Day Course Sets' # 1D English-only -> /share/HDA_DATA/BarryLibrary/1 Day Course Sets/1D English-only/
-	ln -sfn  $AUDIOBASE/Special\ Chantings/Tikapatthana-U_Ba_Khin.mp3 # Tikapatthana-U_Ba_Khin.mp3 -> /share/BarryLibrary/Special Chantings/Tikapatthana-U_Ba_Khin.mp3
-	ln -sfn  $AUDIOBASE/Worker\'s\ Metta/Workers\ Metta\ 2005/2105_WM_English_2005.mp3 WorkersMetta_EN_2005 # WMetta_English.mp3 -> /share/BarryLibrary/Workers Metta v.2005/WMetta_English.mp3
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -32,13 +41,96 @@ fi
 SHAREDIR="$SHAREBASE/3Day_EN"
 if [ -d $SHAREDIR ]
 then
-	cd $SHAREDIR
+	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'10 Day Morning Chantings' # 10 Day Morning Chantings -> /share/BarryLibrary/10 Day Morning Chantings/
 	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D English-only/3D English Discourses' # 3D English Discourses -> /share/BarryLibrary/3 Day Course Sets/3D English-only/3D English Discourses/
 	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D English-only/3D English Instructions' # 3D English Instructions -> /share/BarryLibrary/3 Day Course Sets/3D English-only/3D English Instructions/
-	# ln -sfn  $AUDIOBASE/'WHAT GOES HERE?' # Discourse_on_Dhamma_Service_English.mp3 -> /share/BarryLibrary/Dhamma Service/Discourse on Dhamma Service v.85/Discourse_on_Dhamma_Service_English.mp3
-	ln -sfn  $AUDIOBASE/Special\ Chantings/Tikapatthana-U_Ba_Khin.mp3 # Tikapatthana-U_Ba_Khin.mp3 -> /share/BarryLibrary/Special Chantings/Tikapatthana-U_Ba_Khin.mp3
-	ln -sfn  $AUDIOBASE/Worker\'s\ Metta/Workers\ Metta\ 2005/2105_WM_English_2005.mp3 WorkersMetta_EN_2005 # WMetta_English.mp3 -> /share/BarryLibrary/Workers Metta v.2005/WMetta_English.mp3
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
+	#ln -sfn  "$STD_MORNING_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make Satip_EN links
+SHAREDIR="$SHAREBASE/Satip_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Instructions'
+	# ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Discourses'  #TO-DO add these when correct tagging is added
+	ln -sfn  $AUDIOBASE/'Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3'
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 10Day_EN links
+SHAREDIR="$SHAREBASE/10Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Instructions'
+	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
+	ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make Burmese_EN_10D links
+SHAREDIR="$SHAREBASE/Burmese_EN_10D"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D Burmese Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D E-Burmese Instructions'
+	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
+	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make Khmer_EN_10D links
+SHAREDIR="$SHAREBASE/Khmer_EN_10D"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D Khmer Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D E-Khmer Instructions'
+	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
+	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make Mandarin_EN_10D links  
+#--------------SHOULD THIS be separated into Mandarin_EN and Cantonese_EN or renamed to Chinese_EN? CDM 2013-01-04
+SHAREDIR="$SHAREBASE/Mandarin_EN_10D"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D Mandarin Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D E-Mandarin Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D Cantonese Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D E-Cantonese Instructions'
+	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
+	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_DS_DISCOURSE"
+	ln -sfn  "$STD_TIKIPATTHANA"
+	ln -sfn  "$STD_WORKERSMETTA"
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -316,15 +408,6 @@ lrwxrwxrwx    1 admin    administ       37 Sep 24  2012 Special Chantings -> /sh
 lrwxrwxrwx    1 admin    administ       59 Sep 24  2012 WMetta_English.mp3 -> /share/BarryLibrary/Workers Metta v.2005/WMetta_English.mp3
 [/share/HDA_DATA] # 
 
-
-Sonos Customizations/10D_Hindi_PDI/D01_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D01/D01_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D02_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D02/D02_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D03_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D03/D03_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D04_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D04/D04_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D05_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D05/D05_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D06_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D06/D06_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D07_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D07/D07_2030_Instr_Hindi_10d.mp3
-Sonos Customizations/10D_Hindi_PDI/D08_2030_Instr_Hindi_10d.mp3 -> /share/HDA_DATA/BarryLibrary/10 Day Course Sets/10D Hindi-only/10D Hindi-only Instructions/D08/D08_2030_Instr_Hindi_10d.mp3
 
 
 [/share] # more 10Day_EN/README 
