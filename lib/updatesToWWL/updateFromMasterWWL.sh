@@ -4,6 +4,10 @@
 #    --delete --delete-after --delete-excluded --exclude=.DS_Store
 #
 rsync -avz /Volumes/NO\ NAME/* /Volumes/DharaWWL/
+#
+# Minimal Rearrangement to get rid of weird stuff
+mv /Volumes/DharaWWL/WWL_HDD_2013/Worker\'s\ Metta/Workers\ Metta\ 2005/ ..  # move 'Workers Metta 2005' to top level
+rmdir /Volumes/DharaWWL/WWL_HDD_2013/Worker\'s\ Metta # remove now empty dir
 
 # copy to AV1 NAS
 #   --destination folder must already exist
