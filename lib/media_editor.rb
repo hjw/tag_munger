@@ -44,7 +44,7 @@ module MediaEditor
   # hash key is converted to a string, if it isn't one,
   # and then "=" is added to it. 
   # 
-  # #############################################
+  ##############################################
   def  set_metadata( file_list, tag_hash)
     file_list = [*file_list] # make sure file_list is an array
     file_list.each do |file_name|
