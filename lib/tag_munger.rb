@@ -86,7 +86,7 @@ class TagMunger
   # Set all mp3 files that start with D## to have an 
   # album tag of D##_courseType.  
   # 
-  # The course type is scraped from the file name.
+  # The course type is scraped from the last word in the file name (after the last '_" underbar and before the final '.').
   #
   # ie: fix_album_tags sets album tag to *D01_10d* for a file named *D01_1910_Disc_English_10d.mp3*
   def fix_album_tags

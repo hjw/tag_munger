@@ -24,3 +24,6 @@ rsync -avz /Volumes/DharaWWL/WWL_Exceptions admin@192.168.1.191:/share/HDA_DATA/
 #      (source copied from )
 #      rsync -avz --copy-links 'admin@192.168.1.2:/share/HDA_DATA/BarryLibrary/Sonos\ Customizations' /Volumes/DharaWWL
 rsync -avz '/Volumes/DharaWWL/Sonos\ Customizations' admin@192.168.1.191:/share/HDA_DATA/AudioLibrary
+
+#TO DO FOR 2014 -- save a copy of the file 'Sonos Customizations/VMC gong/gong_sonos_alarm.mp3'
+# because it was created by hawley from a file from barry and is not in the audio library.
