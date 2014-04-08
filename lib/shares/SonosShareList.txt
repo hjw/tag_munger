@@ -6,17 +6,20 @@
 # 10 Day courses
 10Day_EN
 Burmese_EN_10D
-Chinese-English-10D # redundant?
+Chinese-EN-10D # both Mandarin_EN and Cantonese_EN
 Khmer_EN_10D
-Mandarin_EN_10D
+Mandarin_EN_10D # REMOVE, see Chinese_EN
+# do we need an executive share for Executive course?
 
 # shorter courses
 1Day_EN
 3Day_EN # was 3Day
+3Day_Burmese_EN # new for 2014
 9Day_EN
-Sati-khmer # rename to Khmer_EN_Sati or _STP for consistency?
-Satipatthana # rename to Sati_EN or STP_EN for consistency?
-Teen # rename to Teen_EN?
+Satip_EN
+Satip_Burmese_EN
+Satip_Khmer_EN 
+Teen_EN
 
 # long and special courses
 20Day_EN
@@ -28,6 +31,6 @@ Special10Day_EN
 # other
 AudioLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
 VideoLibrary # the video MP4 library, reserved for future use (by the Western Digital MP4 player?)
-LongCourseServers
+LongCourseServers # integrate into long courses?
 BetweenCourses
-WorkPeriod
+# WorkPeriod # remove not used
