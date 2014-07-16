@@ -38,5 +38,5 @@ SonosLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
 VideoLibrary # the video MP4 library, reserved for future use (by the Western Digital MP4 player?)
 WWL_Original # the original WWL library to use as source for building SonosLibrary, and for iPod loading.
 LongCourseServers # integrate into long courses?
-BetweenCourses
+RequiredAudio
 # WorkPeriod # remove not used
