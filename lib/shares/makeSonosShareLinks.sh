@@ -12,10 +12,11 @@
 # 2014-01-02 CDM File Created, based on 2012 library, for use with WWL 2013
 # 2014-04-08 CDM Updates in progress for 2014 library
 
-# Base directories and common files
-#   NOTE: we are expecting links below should not have a trailing slash
+# Base directories
+#   NOTE: the links below should not have a trailing slash
 SHAREBASE='/share/HDA_DATA' # Destination: base directory of shared folders where we create links
-AUDIOBASE='/share/HDA_DATA/AudioLibrary' # Source: base directory of audio library
+AUDIOBASE='/share/HDA_DATA/SonosLibrary' # Source: base directory of audio library
+# common and custom and important file and folder paths put here
 GONG_FOR_SONOS_ALARM=$AUDIOBASE/'Sonos Customizations/VMC gong/gong_sonos_alarm.mp3' # has silence at start and end for Sonos alarm use
 STD_BENEFITS_OF_DS=$AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_English_Benefits_of_D.Service.mp3'
 STD_GROUP_SITTINGS=$AUDIOBASE/'Groupsittings/GSs English-only/' # album with group sittings for between courses
@@ -23,8 +24,7 @@ STD_SPECIAL_CHANTINGS=$AUDIOBASE/'Special Chantings'
 STD_WORKERSMETTA=$AUDIOBASE/'Workers Metta/Workers Metta 2005' # all languages of Workers Metta
 STD_MORNING_CHANTINGS=$AUDIOBASE/'10 Day Morning Chantings' # tagged with "10 Day Morning Chanting" for a separate album
 MIXED_IN_MORNING_CHANTINGS=$AUDIOBASE/'Sonos Customizations/10 Day Morning Chantings' # "_10d" added to file name so they go to correct Dxx_10d album
-MIXED_IN_HINDI_PDI=$AUDIOBASE/'Sonos Customizations/10D_Hindi_PDI' # to add to Dxx_10d albums that may have other languages
-
+STD_HINDI_PDI=$AUDIOBASE/'Sonos Customizations/10D_Hindi_PDI' # tagged with "_Hindi_PDI" for a separate album, used in non-Hindi 10Day courses.
 #
 PROGNAME="`/usr/bin/basename $0`"
 FATAL="$PROGNAME: fatal:"
@@ -44,6 +44,7 @@ then
 	ln -sfn  "$STD_SPECIAL_CHANTINGS"
 	ln -sfn  "$STD_WORKERSMETTA"
 	ln -sfn  "$STD_MORNING_CHANTINGS"
+	ln -sfn  "$GONG_FOR_SONOS_ALARM"
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -54,8 +55,8 @@ if [ -d $SHAREDIR ]
 then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'1 Day Course Sets' # 1D English-only -> /share/HDA_DATA/BarryLibrary/1 Day Course Sets/1D English-only/
-	ln -sfn  "$STD_SPECIAL_CHANTINGS"
-	ln -sfn  "$STD_WORKERSMETTA"
+	#ln -sfn  "$STD_SPECIAL_CHANTINGS"
+	#ln -sfn  "$STD_WORKERSMETTA"
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -68,9 +69,9 @@ then
 	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D Burmese/3D English Discourses'
 	ln -sfn  $AUDIOBASE/'3 Day Course Sets/3D Burmese/3D English Instructions'
 	ln -sfn  "$STD_BENEFITS_OF_DS"
-	ln -sfn  "$STD_SPECIAL_CHANTINGS"
-	ln -sfn  "$STD_WORKERSMETTA"
-	ln -sfn  "$STD_MORNING_CHANTINGS" # chantings in a separate album for 3 Day
+	#ln -sfn  "$STD_SPECIAL_CHANTINGS"
+	#ln -sfn  "$STD_WORKERSMETTA"
+	#ln -sfn  "$STD_MORNING_CHANTINGS" # chantings in a separate album for 3 Day
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -99,7 +100,7 @@ then
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Instructions'
 	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_HINDI_PDI"
 	ln -sfn  "$STD_BENEFITS_OF_DS"
 	ln -sfn  "$STD_SPECIAL_CHANTINGS"
 	ln -sfn  "$STD_WORKERSMETTA"
@@ -108,14 +109,14 @@ else
 fi
 
 #--- make 10D_Burmese_EN links
-SHAREDIR="$SHAREBASE/10D_Burmese_EN"
+SHAREDIR="$SHAREBASE/10Day_Burmese_EN"
 if [ -d $SHAREDIR ]
 then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D Burmese Discourses'
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D E-Burmese Instructions'
 	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
-	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_HINDI_PDI"
 	ln -sfn  "$STD_BENEFITS_OF_DS"
 	ln -sfn  "$STD_SPECIAL_CHANTINGS"
 	ln -sfn  "$STD_WORKERSMETTA"
@@ -124,14 +125,14 @@ else
 fi
 
 #--- make 10D_Khmer_EN links
-SHAREDIR="$SHAREBASE/10D_Khmer_EN"
+SHAREDIR="$SHAREBASE/10Day_Khmer_EN"
 if [ -d $SHAREDIR ]
 then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D Khmer Discourses'
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D E-Khmer Instructions'
 	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
-	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_HINDI_PDI"
 	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Khmer_Benefits_of_D.Service.mp3'
 	ln -sfn  "$STD_BENEFITS_OF_DS"
 	ln -sfn  "$STD_SPECIAL_CHANTINGS"
@@ -142,16 +143,16 @@ fi
 
 #--- make 10D_Chinese_EN links  
 #	 note: Mandarin_EN and Cantonese_EN audio files will be in the same album, unless AT searches by Folder
-SHAREDIR="$SHAREBASE/10D_Chinese_EN"
+SHAREDIR="$SHAREBASE/10Day_Chinese_EN"
 if [ -d $SHAREDIR ]
 then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D Mandarin Discourses'
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D E-Mandarin Instructions'
 	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D Cantonese Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D E-Cantonese Instructions'
+	#ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D E-Cantonese Instructions'
 	ln -sfn  "$MIXED_IN_MORNING_CHANTINGS"
-	#ln -sfn  "$MIXED_IN_HINDI_PDI"
+	ln -sfn  "$STD_HINDI_PDI"
 	ln -sfn  "$STD_BENEFITS_OF_DS"
 	ln -sfn  "$STD_SPECIAL_CHANTINGS"
 	ln -sfn  "$STD_WORKERSMETTA"

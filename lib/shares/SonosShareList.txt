@@ -5,32 +5,38 @@
 
 # 10 Day courses
 10Day_EN
-Burmese_EN_10D
-Chinese-EN-10D # both Mandarin_EN and Cantonese_EN
-Khmer_EN_10D
-Mandarin_EN_10D # REMOVE, see Chinese_EN
+10Day_Burmese_EN # was Burmese_EN_10D
+10Day_Chinese_EN  # bilingual Mandarin_EN plus Cantonese discourses and PDI
+10Day_Khmer_EN # was Khmer_EN_10D
+10day_Thai_EN
+#  Mandarin_EN_10D # REMOVE, see Chinese_EN
 # do we need an executive share for Executive course?
 
 # shorter courses
 1Day_EN
 3Day_EN # was 3Day
 3Day_Burmese_EN # new for 2014
+3Day_Khmer_EN # new for 2014
 9Day_EN
-Satip_EN
-Satip_Burmese_EN
-Satip_Khmer_EN 
+STP_EN
+STP_Burmese_EN
+STP_Khmer_EN 
 Teen_EN
+Children_EN
 
 # long and special courses
 20Day_EN
 30Day_EN  # was 30-45Day
-45Day_EN  # new for 2014
-45Day15A_EN # new for 2014
-Special10Day_EN
+30Day_EN 
+45Day_EN  # has day 30-day 45
+45Day15A_EN # has day 1-45
+60Day_EN # for 2015/2016
+10DaySpl_EN  # Special 10-Day Course English
 
 # other
-AudioLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
+SonosLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
 VideoLibrary # the video MP4 library, reserved for future use (by the Western Digital MP4 player?)
+WWL_Original # the original WWL library to use as source for building SonosLibrary, and for iPod loading.
 LongCourseServers # integrate into long courses?
 BetweenCourses
 # WorkPeriod # remove not used
