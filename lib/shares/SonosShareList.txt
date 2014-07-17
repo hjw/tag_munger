@@ -9,7 +9,6 @@
 10Day_Chinese_EN  # bilingual Mandarin_EN plus Cantonese discourses and PDI
 10Day_Khmer_EN # was Khmer_EN_10D
 10day_Thai_EN
-#  Mandarin_EN_10D # REMOVE, see Chinese_EN
 # do we need an executive share for Executive course?
 
 # shorter courses
@@ -21,14 +20,13 @@
 STP_EN
 STP_Burmese_EN
 STP_Khmer_EN 
-Teen_EN
-Children_EN
+Teen_EN  # no files yet, see BKL
+Children_EN  # no files yet, see BKL
 
 # long and special courses
 20Day_EN
-30Day_EN  # was 30-45Day
 30Day_EN 
-45Day_EN  # has day 30-day 45
+45Day_EN  # has day 30-45 only for 45 Day with 10 days anapana
 45Day15A_EN # has day 1-45
 60Day_EN # for 2015/2016
 10DaySpl_EN  # Special 10-Day Course English
