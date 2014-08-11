@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
-require 'taglib'
+#require 'taglib'
+require_relative 'media_editor'
 require 'pp'
 
 ###########################################
@@ -11,6 +12,7 @@ require 'pp'
 # to do to mimic the old minidisc organization when using
 # the Sonos system.
 class TagMunger
+  include MediaEditor
   
   #########################################
   # The TagMunger object defaults to work on the current directory
@@ -32,15 +34,13 @@ class TagMunger
   # for each mp3 file in the library directory tree
   def browseLibrary(which_tags)
     file_list = []
-    tags = [ "album", "artist", "track"]
+    tags = [ "album", "artist", "track", "title"]
     if which_tags
       tags.select! { |t| which_tags.include?(t)}
     end
     pp "Tags being checked for are: #{tags}"
 
-    Dir.glob("#{@library_root}/**/*.mp3") do |name|
-      file_list << name
-    end
+    file_list = select_files("#{@library_root}/**/*.mp3")
 
     if file_list.length == 0
       pp "No .mp3 files found below root: #{@library_root}"
@@ -48,18 +48,7 @@ class TagMunger
       pp "Found #{file_list.count} mp3 files below #{File.expand_path(@library_root)}."
     end
 
-    file_list.each do |name|
-      ok = TagLib::FileRef.open(name) do |f|
-        output = "#{name} --> "
-        tags.each do |t|
-          output << " #{t}: #{f.tag.send(t)}"
-        end
-        puts output
-      end
-      if ok == false then
-        puts "uh-oh. There was a problem opening #{name}"
-      end
-    end
+    print_metadata(file_list, tags)
   end
 
   ################################################################
@@ -67,32 +56,28 @@ class TagMunger
   # displays tag info, prompts for tag to edit, changes that tag.
   #
   #####NOT WORKING YET!
-  def interactiveEdit(fileName)
+  def interactive_edit(fileName)
     file_list = []
-    tags = [ "album", "artist", "track", "genre"]
+    tags = [ "title","album", "artist", "track", "genre"]
 
-    Dir.glob(fileName) do |name|
-      file_list << name
+    quit = "n"
+    until quit == "q"
+      puts "Current metadata for file:"
+      print_metadata(fileName, tags)
+
+      print "What tag would you like to change? (#{tags.join(", ")}): "
+      tag_name = gets.chomp
+      print "What would you like to set it to? "
+      tag_value = gets.chomp
+      set_metadata(fileName, {tag_name  =>tag_value})
+
+      puts "Current metadata for file is now: "
+      print_metadata(fileName, tags)
+
+      print "Quit [q], or continue [c]? "
+      quit = gets.chomp
     end
 
-    if file_list.length == 0
-      pp "Could not find files matching #{@fileName}"
-    else
-      pp "Found #{file_list.count} files matching #{@fileName}."
-    end
-
-    file_list.each do |name|
-      ok = TagLib::FileRef.open(name) do |f|
-        output = "#{name} --> \n"
-        tags.each do |t|
-          output << " #{t}: #{f.tag.send(t)}\n"
-        end
-        puts output
-      end
-      if ok == false then
-        puts "uh-oh. There was a problem opening #{name}"
-      end
-    end
   end
 
   #########################################
@@ -122,14 +107,7 @@ class TagMunger
     if !@dry_run then
       puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
       temp_hash.each do |file_name, album_tag|
-        ok = TagLib::FileRef.open(file_name) do |f|
-          tag = f.tag
-          tag.album = album_tag
-          f.save
-        end
-        if ok == false then
-          puts "uh-oh.  There was a problem saving / openning #{file_name}"
-        end
+        set_metadata(file_name, album:album_tag)
       end
     else #@dry_run == true
       puts "You are in dry run mode.\nIf you weren't in dry run mode the following changes would be made:"
@@ -137,6 +115,27 @@ class TagMunger
     end
     puts "finished the global album name fix."
   end #end.fix_album_tags
+
+  #####################################
+  # set_album(file_list,album)
+  #
+  # takes an array of file names (full path)
+  # and sets their album tag to be albumj
+  # ##################################
+  def set_album(file_list, album_name)
+    set_metadata(file_list, album:album_name)
+  end
+
+  #####################################
+  # set_track(file_list,track_num)
+  #
+  # takes an array of file names (full path)
+  # and sets their track tag to be track_num
+  # ##################################
+  def set_track(file_list, track_num)
+    set_metadata(file_list, track:track_num)
+  end
+  
   private
 
   def select_files(match_string)
