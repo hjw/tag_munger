@@ -50,6 +50,87 @@ else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
 
+#--- make 10Day_EN links
+SHAREDIR="$SHAREBASE/10Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Instructions'
+	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
+	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_English_Benefits_of_D.Service.mp3'
+	ln -sfn  "$TENDAY_HINDI_PDI"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 10Day_Burmese_EN links
+SHAREDIR="$SHAREBASE/10Day_Burmese_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D Burmese Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D E-Burmese Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
+	# no D10_2030_Burmese_Benefits_of_D.Service.mp3 exists
+	ln -sfn  "$TENDAY_HINDI_PDI"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 10Day_Khmer_EN links
+SHAREDIR="$SHAREBASE/10Day_Khmer_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D Khmer Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D E-Khmer Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
+	ln -sfn  "$STD_BENEFITS_OF_DS"
+	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Khmer_Benefits_of_D.Service.mp3'
+	ln -sfn  "$TENDAY_HINDI_PDI"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 10Day_Chinese_EN links  
+#	 note: Mandarin_EN and Cantonese_EN audio files will be in the same album, unless AT searches by Folder
+SHAREDIR="$SHAREBASE/10Day_Chinese_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D E-Mandarin Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D Mandarin Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D Cantonese Discourses'
+	#ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D E-Cantonese Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
+	ln -sfn  "$STD_BENEFITS_OF_DS"
+	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Mandarin_Benefits_of_D.Service.mp3'
+	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Cantonese_Benefits_of_D.Service.mp3'
+	ln -sfn  "$TENDAY_HINDI_PDI"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 10day_Thai_EN links
+SHAREDIR="$SHAREBASE/10day_Thai_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Thai/10D E-Thai Instructions'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Thai/10D Thai Discourses'
+	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
+	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
+	ln -sfn  "$STD_BENEFITS_OF_DS"
+	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Thai_Benefits_of_D.Service.mp3'
+	ln -sfn  "$TENDAY_HINDI_PDI"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
 #--- make 1Day_EN links
 SHAREDIR="$SHAREBASE/1Day_EN"
 if [ -d $SHAREDIR ]
@@ -95,86 +176,8 @@ else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
 
-#--- make 10Day_EN links
-SHAREDIR="$SHAREBASE/10Day_EN"
-if [ -d $SHAREDIR ]
-then
-	cd $SHAREDIR; echo making links in $SHAREDIR
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Instructions'
-	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$TENDAY_HINDI_PDI"
-	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_English_Benefits_of_D.Service.mp3'
-else
-	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
-fi
-
-#--- make 10Day_Burmese_EN links
-SHAREDIR="$SHAREBASE/10Day_Burmese_EN"
-if [ -d $SHAREDIR ]
-then
-	cd $SHAREDIR; echo making links in $SHAREDIR
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D Burmese Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Burmese/10D E-Burmese Instructions'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
-	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$TENDAY_HINDI_PDI"
-	# no D10_2030_Burmese_Benefits_of_D.Service.mp3 exists
-else
-	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
-fi
-
-#--- make 10Day_Khmer_EN links
-SHAREDIR="$SHAREBASE/10Day_Khmer_EN"
-if [ -d $SHAREDIR ]
-then
-	cd $SHAREDIR; echo making links in $SHAREDIR
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D Khmer Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Khmer/10D E-Khmer Instructions'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
-	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$TENDAY_HINDI_PDI"
-	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Khmer_Benefits_of_D.Service.mp3'
-else
-	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
-fi
-
-#--- make 10Day_Chinese_EN links  
-#	 note: Mandarin_EN and Cantonese_EN audio files will be in the same album, unless AT searches by Folder
-SHAREDIR="$SHAREBASE/10Day_Chinese_EN"
-if [ -d $SHAREDIR ]
-then
-	cd $SHAREDIR; echo making links in $SHAREDIR
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D E-Mandarin Instructions'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Mandarin/10D Mandarin Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D Cantonese Discourses'
-	#ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Cantonese/10D E-Cantonese Instructions'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
-	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$TENDAY_HINDI_PDI"
-	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Mandarin_Benefits_of_D.Service.mp3'
-	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Cantonese_Benefits_of_D.Service.mp3'
-else
-	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
-fi
-
-#--- make 10day_Thai_EN links
-SHAREDIR="$SHAREBASE/10day_Thai_EN"
-if [ -d $SHAREDIR ]
-then
-	cd $SHAREDIR; echo making links in $SHAREDIR
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Thai/10D E-Thai Instructions'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D Thai/10D Thai Discourses'
-	ln -sfn  $AUDIOBASE/'10 Day Course Sets/10D English-only/10D English Discourses'
-	ln -sfn  "$TENDAY_MIXED_IN_MORNING_CHANTINGS"
-	ln -sfn  "$TENDAY_HINDI_PDI"
-	ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Thai_Benefits_of_D.Service.mp3'
-else
-	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
-fi
-
-
-
+#--- make 9Day_EN links
+echo TO-DO make links for 9Day_EN
 
 #--- make STP_EN links
 SHAREDIR="$SHAREBASE/STP_EN"
@@ -213,4 +216,32 @@ else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
 
-# end of script
+#--- make Teen_EN links
+echo TO-DO make links for Teen_EN
+
+#--- make Children_EN links
+echo TO-DO make links for Children_EN
+
+#--- make 10DaySpl_EN links
+echo TO-DO make links for 10DaySpl_EN
+
+#--- make 20Day_EN links
+echo TO-DO make links for 20Day_EN
+
+#--- make 30Day_EN links
+echo TO-DO make links for 30Day_EN
+
+#--- make 45Day_EN links
+echo TO-DO make links for 45Day_EN
+
+#--- make 45Day15A_EN links
+echo TO-DO make links for 45Day15A_EN
+
+#--- make 60Day_EN links
+echo TO-DO make links for 60Day_EN
+
+#--- make LongCourseServers links
+echo TO-DO make links for LongCourseServers
+
+echo end of script
+#------------------------------------------

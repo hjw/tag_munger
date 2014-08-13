@@ -1,40 +1,51 @@
-# Sonos Shared Volume list
-#	- on VMC Audio NAS Drive
-#	- for use by Sonos audio system
-#	- based on what is needed for upcoming courses
+# Sonos Shared Volume list for Dhamma Dhara (VMC)
+#	- stored on VMC Audio NAS Drive
+#	- for use by Sonos audio system (and possibly Video system and iPods)
+#	- intended to cover all VMC course types through January 2016
+#	- based on World Wide Languages 2014 audio/video library
+
+# For continuous use
+RequiredAudio   # Albums for:
+				#   Group Sittings (English-only), 
+				#   Morning Chantings,
+				#	Special Chantings,
+				#   Workers Metta (all languages, English first in list) 
+				#	Benefits of D.Service (all languages, English first in list)
+				#   gongs (including gong for alarms)
 
 # 10 Day courses
-10Day_EN
-10Day_Burmese_EN # was Burmese_EN_10D
-10Day_Chinese_EN  # bilingual Mandarin_EN plus Cantonese discourses and PDI
-10Day_Khmer_EN # was Khmer_EN_10D
-10day_Thai_EN
-# do we need an executive share for Executive course?
+10Day_EN          # 10-day English instructions, audio discourses, mixed-in morning chantings, Benefits of D.S., Hindi-only PDI.
+10Day_Burmese_EN  # 10-day English-Burmese instructions, English + Burmese audio discourses, mixed-in morning chantings, Hindi-only PDI (no Burmese Benefits of Dhamma Service found)
+10Day_Chinese_EN  # 10-day English-Mandarin instructions, English + Mandarin + Cantonese audio discourses, Mand. + Cant. Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
+10Day_Khmer_EN    # 10-day English-Khmer instructions, English + Khmer audio discourses, English + Khmer Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
+10day_Thai_EN     # 10-day English-Thai instructions, English + Thai audio discourses, English + Thai Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
+                  # do we need an executive share for Executive course?
 
 # shorter courses
-1Day_EN
-3Day_EN # was 3Day
-3Day_Burmese_EN # new for 2014
-3Day_Khmer_EN # new for 2014
-9Day_EN
-STP_EN
-STP_Burmese_EN
-STP_Khmer_EN 
-Teen_EN  # no files yet, see BKL
-Children_EN  # no files yet, see BKL
+1Day_EN         # 1-day English instructions
+3Day_EN         # 3-day English instructions and audio discourses.
+3Day_Burmese_EN # 3-day Burmese instructions, English + Burmese audio discourses.
+3Day_Khmer_EN   # 3-day Khmer instructions, English + Burmese audio discourses.
+9Day_EN			# Do we need this?
+STP_EN          # Satipatthana English instructions, English audio discourses, Satipatthana Sutta chanting.
+STP_Burmese_EN  # Satipatthana Burmese (only?) instructions, English audio discourses, Satipatthana Sutta chanting.
+STP_Khmer_EN    # Satipatthana Khmer (only?) instructions, English audio discourses, Satipatthana Sutta chanting.
+Teen_EN         # no files yet, see BKL
+Children_EN     # no files yet, see BKL
 
 # long and special courses
-20Day_EN
-30Day_EN 
-45Day_EN  # has day 30-45 only for 45 Day with 10 days anapana
-45Day15A_EN # has day 1-45
-60Day_EN # for 2015/2016
-10DaySpl_EN  # Special 10-Day Course English
+10DaySpl_EN     # Special 10-Day Course English instructions and audio discourses
+20Day_EN		# 20-day English instructions and audio discourses
+30Day_EN 		# 30-day English instructions and audio discourses
+45Day_EN        # has day 30-45 only for 45 Day with 10 days anapana
+45Day15A_EN     # has day 1-45 of 45 day course with 15 days anapana
+60Day_EN        # for 2015/2016
+LongCourseServers # integrate into long courses? Tag as a single album?
 
 # other
-SonosLibrary # the entire WWL audio library of MP3 files, was 'BarryLibrary'
-VideoLibrary # the video MP4 library, reserved for future use (by the Western Digital MP4 player?)
-WWL_Original # the original WWL library to use as source for building SonosLibrary, and for iPod loading.
-LongCourseServers # integrate into long courses?
-RequiredAudio
-# WorkPeriod # remove not used
+SonosLibrary    # the entire WWL audio library of MP3 files, navigate by Music Library > Files, instead of Music Library > Albums.
+VideoLibrary    # the video MP4 library, reserved for future use by the Western Digital MP4 player
+WWL_Original    # the original WWL library to use as source for building SonosLibrary, and for iPod loading.
+
+
+
