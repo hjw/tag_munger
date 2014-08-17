@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
-#require 'taglib'
 require_relative 'media_editor'
 require 'pp'
 
@@ -38,14 +37,14 @@ class TagMunger
     if which_tags
       tags.select! { |t| which_tags.include?(t)}
     end
-    pp "Tags being checked for are: #{tags}"
+    puts "Tags being checked for are: #{tags}"
 
     file_list = select_files("#{@library_root}/**/*.mp3")
 
     if file_list.length == 0
-      pp "No .mp3 files found below root: #{@library_root}"
+      puts "No .mp3 files found below root: #{@library_root}"
     else
-      pp "Found #{file_list.count} mp3 files below #{File.expand_path(@library_root)}."
+      puts "Found #{file_list.count} mp3 files below #{File.expand_path(@library_root)}."
     end
 
     print_metadata(file_list, tags)
@@ -55,7 +54,6 @@ class TagMunger
   # Interactively edit tags. Given a file name,
   # displays tag info, prompts for tag to edit, changes that tag.
   #
-  #####NOT WORKING YET!
   def interactive_edit(fileName)
     file_list = []
     tags = [ "title","album", "artist", "track", "genre"]
@@ -98,6 +96,7 @@ class TagMunger
 
     # create album_name from file name 
     # "D09_0855_GS_10d.mp3" gets album "D09_10d"
+    # "D09_0855_GS_STP.mp3" gets album "D09_STP"
     file_list.each do |name|
       w = (File.basename(name)).split("_")
       album_name = [ w[0],  w[-1].chomp(".mp3")].join("_")
@@ -144,9 +143,9 @@ class TagMunger
       file_list << name
     end
     if file_list.length == 0
-      pp "empty file list from root: #{@library_root}"
+      puts "empty file list from root: #{@library_root}"
     else
-      pp "file_list is #{file_list.count} long."
+      puts "file_list is #{file_list.count} long."
     end
     file_list
   end
