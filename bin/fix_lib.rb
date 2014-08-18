@@ -78,7 +78,7 @@ def full_tapelibrary_massage(option_file_name, interactive)
   VMCTapeLibCustomizations.gongs(directory_names["gongs_dir"], interactive)
   VMCTapeLibCustomizations.group_sittings(directory_names["group_sittings_dir"], interactive)
   VMCTapeLibCustomizations.hindi(directory_names["hindi_instr_dir"],
-                                 File.join(directory_names["custom_dir"],File.basename(directory_names["hindi_instr_dir"])), interactive)
+                                 File.join(directory_names["custom_dir"],"10D_Hindi_PDI"), interactive)
   VMCTapeLibCustomizations.metta_mods(directory_names["workers_metta_dir"], interactive)
   VMCTapeLibCustomizations.one_day_course(directory_names["one_day_dir"], interactive)
   VMCTapeLibCustomizations.set_discourse_track_numbers(directory_names["library_root"], interactive)
