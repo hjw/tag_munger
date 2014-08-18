@@ -37,7 +37,9 @@ Children_EN     # no files yet, see BKL
 10DaySpl_EN     # Special 10-Day Course English instructions and audio discourses
 20Day_EN		# 20-day English instructions and audio discourses
 30Day_EN 		# 30-day English instructions and audio discourses
+30Day_Khmer_EN 	# 30-day bilingual Khmer-English instructions and separate en and khmer audio discourses
 45Day_EN        # has day 30-45 only for 45 Day with 10 days anapana
+45Day_Khmer_EN 	# 45-day bilingual Khmer-English instructions and separate en and khmer audio discourses
 45Day15A_EN     # has day 1-45 of 45 day course with 15 days anapana
 60Day_EN        # for 2015/2016
 LongCourseServers # integrate into long courses? Tag as a single album?

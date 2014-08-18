@@ -223,19 +223,90 @@ echo TO-DO make links for Teen_EN
 echo TO-DO make links for Children_EN
 
 #--- make 10DaySpl_EN links
-echo TO-DO make links for 10DaySpl_EN
+SHAREDIR="$SHAREBASE/10DaySpl_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'10 Day Special Course Sets/10D SPL English-only/10D SPL English Discourses' 
+  ln -sfn $AUDIOBASE/'10 Day Special Course Sets/10D SPL English-only/10D SPL English Instructions' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS/Tikapatthana-U_Ba_Khin.mp3"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make 20Day_EN links
-echo TO-DO make links for 20Day_EN
+SHAREDIR="$SHAREBASE/20Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'20 Day Course Sets/20D English-only/20D English Discourses' 
+  ln -sfn $AUDIOBASE/'20 Day Course Sets/20D English-only/20D English Instructions' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make 30Day_EN links
-echo TO-DO make links for 30Day_EN
+SHAREDIR="$SHAREBASE/30Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'30 Day Course Sets [w.10Ds Anapana]/30D English-only [10A]/30D English Discourses [10A]' 
+  ln -sfn $AUDIOBASE/'30 Day Course Sets [w.10Ds Anapana]/30D English-only [10A]/30D English Instructions [10A]' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 30Day_Khmer_EN links
+SHAREDIR="$SHAREBASE/30Day_Khmer_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'30 Day Course Sets [w.10Ds Anapana]/30D Khmer [10A]/30D E-Khmer Instructions [10A]' 
+  ln -sfn $AUDIOBASE/'30 Day Course Sets [w.10Ds Anapana]/30D English-only [10A]/30D English Discourses [10A]' 
+  ln -sfn $AUDIOBASE/'30 Day Course Sets [w.10Ds Anapana]/30D Khmer [10A]/30D Khmer Discourses [10A]' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make 45Day_EN links
-echo TO-DO make links for 45Day_EN
+SHAREDIR="$SHAREBASE/45Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.10Ds Anapana]/45D English-only [10A]/45D English Discourses [10A]' 
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.10Ds Anapana]/45D English-only [10A]/45D English Instructions [10A]' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
+
+#--- make 45Day_Khmer_EN links
+SHAREDIR="$SHAREBASE/45Day_Khmer_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.10Ds Anapana]/45D Khmer [10A]/45D E-Khmer Instructions [10A]' 
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.10Ds Anapana]/45D English-only [10A]/45D English Discourses [10A]' 
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.10Ds Anapana]/45D Khmer [10A]/45D Khmer Discourses [10A]' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make 45Day15A_EN links
-echo TO-DO make links for 45Day15A_EN
+SHAREDIR="$SHAREBASE/45Day15A_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.15Ds Anapana]/45D English-only [15A]/45D English Discourses [15A]' 
+  ln -sfn $AUDIOBASE/'45 Day Course Sets [w.15Ds Anapana]/45D English-only [15A]/45D English Instructions [15A]' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make 60Day_EN links
 echo TO-DO make links for 60Day_EN
