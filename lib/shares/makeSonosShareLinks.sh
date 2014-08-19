@@ -17,7 +17,7 @@
 SHAREBASE='/share/HDA_DATA' # Destination: base directory of shared folders where we create links
 AUDIOBASE='/share/HDA_DATA/SonosLibrary' # Source: base directory of audio library
 # common and custom and important file and folder paths put here
-GONG_FOR_SONOS_ALARM=$AUDIOBASE/'Sonos Customizations/VMC gong/gong_sonos_alarm.mp3' # has silence at start and end for Sonos alarm use
+GONG_FOR_SONOS_ALARM=$AUDIOBASE/'Sonos Customizations/VMC Alarms/gong_sonos_alarm.mp3' # has silence at start and end for Sonos alarm use
 STD_BENEFITS_OF_DS=$AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_English_Benefits_of_D.Service.mp3'
 STD_GROUP_SITTINGS=$AUDIOBASE/'Groupsittings/GSs English-only/' # album with group sittings for between courses
 STD_SPECIAL_CHANTINGS=$AUDIOBASE/'Special Chantings'

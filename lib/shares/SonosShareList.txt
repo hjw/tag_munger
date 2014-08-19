@@ -19,7 +19,7 @@ RequiredAudio   # Albums for:
 10Day_Chinese_EN  # 10-day English-Mandarin instructions, English + Mandarin + Cantonese audio discourses, Mand. + Cant. Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
 10Day_Khmer_EN    # 10-day English-Khmer instructions, English + Khmer audio discourses, English + Khmer Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
 10day_Thai_EN     # 10-day English-Thai instructions, English + Thai audio discourses, English + Thai Benefits of D.S, mixed-in morning chantings, Hindi-only PDI.
-                  # do we need an executive share for Executive course?
+# No share for Executive course, the only additional material is an MP4 file.
 
 # shorter courses
 1Day_EN         # 1-day English instructions
@@ -42,12 +42,11 @@ Children_EN     # no files yet, see BKL
 45Day_Khmer_EN 	# 45-day bilingual Khmer-English instructions and separate en and khmer audio discourses
 45Day15A_EN     # has day 1-45 of 45 day course with 15 days anapana
 60Day_EN        # for 2015/2016
-LongCourseServers # integrate into long courses? Tag as a single album?
 
 # other
 SonosLibrary    # the entire WWL audio library of MP3 files, navigate by Music Library > Files, instead of Music Library > Albums.
 VideoLibrary    # the video MP4 library, reserved for future use by the Western Digital MP4 player
-WWL_Original    # the original WWL library to use as source for building SonosLibrary, and for iPod loading.
+iPodLibrary     # the unmodified MP3 files for iPod loading (no Sonos retagging) + extra stuff for AT Mac Minis.
 
 
 
