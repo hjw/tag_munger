@@ -64,12 +64,16 @@ class TagMunger
 
       print "What tag would you like to change? (#{tags.join(", ")}): "
       tag_name = gets.chomp
-      print "What would you like to set it to? "
-      tag_value = gets.chomp
-      set_metadata(fileName, {tag_name  =>tag_value})
+      if tags.include?(tag_name)
+        print "What would you like to set it to? "
+        tag_value = gets.chomp
+        set_metadata(fileName, {tag_name  =>tag_value})
 
-      puts "Current metadata for file is now: "
-      print_metadata(fileName, tags)
+        puts "Current metadata for file is now: "
+        print_metadata(fileName, tags)
+      else
+        puts "That's not a valid tag."
+      end
 
       print "Quit [q], or continue [c]? "
       quit = gets.chomp
