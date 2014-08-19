@@ -37,14 +37,13 @@ class TagMunger
     if which_tags
       tags.select! { |t| which_tags.include?(t)}
     end
-    puts "Tags being checked for are: #{tags}"
 
     file_list = select_files("#{@library_root}/**/*.mp3")
 
     if file_list.length == 0
       puts "No .mp3 files found below root: #{@library_root}"
     else
-      puts "Found #{file_list.count} mp3 files below #{File.expand_path(@library_root)}."
+      puts "#{file_list.count} mp3 files found below root: #{@library_root}"
     end
 
     print_metadata(file_list, tags)

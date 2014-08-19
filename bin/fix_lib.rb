@@ -104,6 +104,11 @@ def parse_command_line(options)
       options[:interactive] = false
     end
 
+    opts.on( "-r DIRNAME","--report DIRNAME", 
+            "\n\t\t Spit out all mp3 files in the directory tree under DIRNAME and their tags.\n\n") do |directory|
+      options[:report] = directory
+    end
+
     opts.on( "--am_chantings DIRNAME", 
             "\n\t\t Give the mp3 files in DIRNAME the album tag _10Day Morning Chantings.\n\n") do |directory|
       options[:morning_chantings] = directory
@@ -146,6 +151,10 @@ def parse_command_line(options)
       options[:hindi_to] = a[1]
     end
 
+    opts.on( "--one_day DIRNAME", 
+            "\n\t\t Give the mp3 files in DIRNAME the album tag 'One Day Course'.\n\n") do |directory|
+      options[:one_day] = directory
+    end
     opts.on( "--sittings DIRNAME", 
             "\n\t\t Give the mp3 files in DIRNAME the album tag _Group Sittings\n\n") do |directory|
       options[:group_sittings] = directory
@@ -211,10 +220,6 @@ if my_options.has_key?(:dohas)
   VMCTapeLibCustomizations.dohas(my_options[:dohas], my_options[:interactive])
 end
 
-if my_options.has_key?(:special_chantings)
-  VMCTapeLibCustomizations.special_chantings(my_options[:special_chantings], my_options[:interactive])
-end
-
 if my_options.has_key?(:gongs)
   VMCTapeLibCustomizations.gongs(my_options[:gongs], my_options[:interactive])
 end
@@ -225,6 +230,18 @@ end
 
 if my_options.has_key?(:hindi_from)
   VMCTapeLibCustomizations.hindi(my_options[:hindi_from],my_options[:hindi_to], my_options[:interactive])
+end
+
+if my_options.has_key?(:one_day)
+  VMCTapeLibCustomizations.one_day_course(my_options[:one_day], my_options[:interactive])
+end
+
+if my_options.has_key?(:report)
+  VMCTapeLibCustomizations.report(my_options[:one_day])
+end
+
+if my_options.has_key?(:special_chantings)
+  VMCTapeLibCustomizations.special_chantings(my_options[:special_chantings], my_options[:interactive])
 end
 
 if my_options.has_key?(:std_album_fix)
