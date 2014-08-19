@@ -6,11 +6,27 @@
 #	/share/HDA_DATA/VideoLibrary  (holds DharaWWL/MP4_Files/*)
 #   /share/HDA_DATA/iPodLibrary   (holds DharaWWL/WWL_Exceptions/*)
 #
+SOURCE_VOLUME="/Volumes/DharaWWL"
 WWL_FOLDER='WWD_2014'
-NAS_IP='192.168.1.191'
-rsync -avz --exclude=.DS_Store /Volumes/DharaWWL/SonosLibrary/* admin@$NAS_IP:/share/HDA_DATA/SonosLibrary
-rsync -avz --exclude=.DS_Store /Volumes/DharaWWL/$WWL_FOLDER/MP4_Files_10D_STP_General/* admin@$NAS_IP:/share/HDA_DATA/VideoLibrary
-rsync -avz --exclude=.DS_Store /Volumes/DharaWWL/$WWL_FOLDER/WWL_HDD/* admin@$NAS_IP:/share/HDA_DATA/iPodLibrary
+NAS_IP="$1" # e.g. 192.168.1.191
+#
+if [ $# -ne 1 ]
+then
+    echo "Syntax: $0 {NAS IP address or host name}"
+    echo "Copy tagged Sonos Libraries from local volume to NAS drive"
+    echo "Uses 'rsync' to update files in SonosLibrary, VideoLibrary, and iPodLibrary folders on NAS, 
+    echo "Removes files not found on source folders.
+    echo "Example: $0 192.168.1.123"
+    exit
+fi
+
+echo "------------ update SonosLibrary -----------------"
+rsync -avz --exclude=.DS_Store --delete --delete-excluded $SOURCE_VOLUME/SonosLibrary/* admin@${NAS_IP}:/share/HDA_DATA/SonosLibrary
+echo "------------ update VideoLibrary -----------------"
+rsync -avz --exclude=.DS_Store --delete --delete-excluded $SOURCE_VOLUME/$WWL_FOLDER/MP4_Files_10D_STP_General/* admin@${NAS_IP}:/share/HDA_DATA/VideoLibrary
+echo "------------ update iPodLibrary -----------------"
+rsync -avz --exclude=.DS_Store --delete --delete-excluded $SOURCE_VOLUME/$WWL_FOLDER/WWL_HDD/* admin@${NAS_IP}:/share/HDA_DATA/iPodLibrary
+echo "------------ Next... -----------------"
 
 # Next:
 echo 'Next: create all remaining folders in SonosShareList.txt with QNAP web interface'

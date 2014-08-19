@@ -25,8 +25,8 @@ STD_WORKERSMETTA=$AUDIOBASE/'Workers Metta/Workers Metta 2005' # all languages o
 STD_MORNING_CHANTINGS=$AUDIOBASE/'10 Day Morning Chantings' # tagged with "10 Day Morning Chanting" for a separate album
 TENDAY_MIXED_IN_MORNING_CHANTINGS=$AUDIOBASE/'Sonos Customizations/10 Day Morning Chantings' # "_10d" added to file name so they go to correct Dxx_10d album
 TENDAY_HINDI_PDI=$AUDIOBASE/'Sonos Customizations/10D_Hindi_PDI' # tagged with "_Hindi_PDI" for a separate album, used in non-Hindi 10Day courses.
-#
-PROGNAME="`/usr/bin/basename $0`"
+# 
+PROGNAME="makeSonosShareLinks.sh"  # "`/usr/bin/basename $0`"   Possible TO-DO: fix this so base name works correctly on QNAP; $0 returns nothing
 FATAL="$PROGNAME: fatal:"
 
 #--- check source
@@ -311,8 +311,6 @@ fi
 #--- make 60Day_EN links
 echo TO-DO make links for 60Day_EN
 
-#--- make LongCourseServers links
-echo TO-DO make links for LongCourseServers
 
 echo end of script
 #------------------------------------------
