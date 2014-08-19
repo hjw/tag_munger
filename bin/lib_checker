@@ -257,10 +257,4 @@ non_std_course_file.reject! { |name| name.match(bulk_group_sittings_re)}
 puts "\nAfter removing the non-english group sittings files, \n#{non_std_course_file.size} files don't match any of our course/album algorithms."
 puts "\n"
 pp non_std_course_file
-#pp std_course_file
-
-#pretty_check_print( potential_problems)
-
-
-#reg_e = g=/^.*\/([^_]*_).*_(\d{1,2}d).mp3$/.match(x)
 

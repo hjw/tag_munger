@@ -64,6 +64,6 @@ if options.has_key?(:albums)
 end
 
 if options.has_key?(:edit)
-  print "--edit option was specified with filename: #{options[:edit]}\nThis function is in beta"
+  puts "--edit option was specified with filename: #{options[:edit]}"
   tagger.interactive_edit(options[:edit])
 end
