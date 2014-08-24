@@ -71,7 +71,7 @@ module VMCTapeLibCustomizations
          begin
            FileUtils.mkdir(new_am_chantings_dir) #create the new_am_chantings_dir, but don't bomb out if it already exists
          rescue Errno::EEXIST
-           puts "#{new_am_chantings_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{new_am_chantings_dir} "
+           puts "#{new_am_chantings_dir} already exists, copying morning chanting files to it. This will overwrite any files in #{new_am_chantings_dir} "
          end
          FileUtils.cp(file_list, new_am_chantings_dir)
 
@@ -222,7 +222,9 @@ module VMCTapeLibCustomizations
    #####################################
    def self.hindi(from_dir, to_dir, interactive=true)
      make_change = true
+     puts "in hindi. from_dir= #{from_dir}, to_dir= #{to_dir}"
      if Dir.exists?(from_dir)
+       puts "from_dir exists"
        if interactive
          make_change = false
          puts "Creating a duplicate of the Hindi PDIs for 10day courses."
@@ -240,32 +242,34 @@ module VMCTapeLibCustomizations
            puts "OK. Exiting program."
            raise SystemExit, "User requested quit while copying hindi pdi's from #{from_dir} to #{to_dir}."
          end
-         
-         if make_change
-           puts "copying hindi PDI's to #{to_dir} "
-           file_list = select_files("#{from_dir}/**/D[0-9][0-9]_2030_*10d.mp3")
-           if file_list.count >= 1
-             begin
-               FileUtils.mkdir(to_dir) #create the to_dir, but don't bomb out if it already exists
-             rescue Errno::EEXIST
-               puts "#{to_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{to_dir} "
-             end
-             file_list.each do |f|
-               FileUtils.cp(f, to_dir)
-             end
-             file_list = select_files("#{to_dir}/*.mp3")
-             file_list.each do |f|
-               set_metadata(f, {"album" => "_Hindi PDIs"})
-             end
-           else
-             raise IOError, "No files matching D[0-9][0-9]_2030_*10d.mp3 were found in the Hindi PDI directory #{from_dir}."
+       end
+
+       if make_change
+         puts "copying hindi PDI's to #{to_dir} "
+         file_list = select_files("#{from_dir}/**/D[0-9][0-9]_2030_*10d.mp3")
+         if file_list.count >= 1
+           begin
+             FileUtils.mkdir(to_dir) #create the to_dir, but don't bomb out if it already exists
+           rescue Errno::EEXIST
+             puts "#{to_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{to_dir} "
            end
+           file_list.each do |f|
+             FileUtils.cp(f, to_dir)
+           end
+           file_list = select_files("#{to_dir}/*.mp3")
+           puts "about to set the metadata for #{file_list.count} hindi pdis."
+           file_list.each do |f|
+             set_metadata(f, {"album" => "_Hindi PDIs"})
+           end
+         else
+           raise IOError, "No files matching D[0-9][0-9]_2030_*10d.mp3 were found in the Hindi PDI directory #{from_dir}."
          end
        end
      else
        raise IOError, "Hindi PDI directory #{from_dir} could not be found."
      end
    end
+
 
    ########################################
    # 

@@ -56,29 +56,27 @@ def full_tapelibrary_massage(option_file_name, interactive)
   puts "\nlooking for the directories specified in your input file..."
   directory_names.each do |key, value|
     if !Dir.exists?(value)
-      puts"!!!! #{value} cannot be found."
+      puts"!!!! #{key}:  #{value} cannot be found."
       uh_oh_flag = true
     end 
   end
 
-  if uh_oh_flag
-    raise IOError
-  else
-    puts "I've found all of the directories that you specified."
-  end
+###   if uh_oh_flag
+###     raise IOError
+###   else
+###     puts "I've found all of the directories that you specified."
+###   end
   directory_names["library_root"].chomp("/") #remove the trailing / if there is one
 
-  VMCTapeLibCustomizations.am_chantings_duplicate(directory_names["am_chant_dir"],
-                                                  File.join(directory_names["custom_dir"],File.basename(directory_names["am_chant_dir"])), interactive)
-
+  VMCTapeLibCustomizations.am_chantings_duplicate(directory_names["am_chant_src_dir"], directory_names["am_chant_cust_dir"], interactive)
   VMCTapeLibCustomizations.std_album_tag_fix(directory_names["library_root"],interactive)
 
-  VMCTapeLibCustomizations.am_chantings_album(directory_names["am_chant_dir"], interactive)
+  VMCTapeLibCustomizations.am_chantings_album(directory_names["am_chant_src_dir"], interactive)
   VMCTapeLibCustomizations.dohas(directory_names["dohas_dir"], interactive)
   VMCTapeLibCustomizations.gongs(directory_names["gongs_dir"], interactive)
   VMCTapeLibCustomizations.group_sittings(directory_names["group_sittings_dir"], interactive)
-  VMCTapeLibCustomizations.hindi(directory_names["hindi_instr_dir"],
-                                 File.join(directory_names["custom_dir"],"10D_Hindi_PDI"), interactive)
+  VMCTapeLibCustomizations.hindi(directory_names["hindi_instr_src_dir"], directory_names['hindi_instr_cust_dir'], interactive)
+
   VMCTapeLibCustomizations.metta_mods(directory_names["workers_metta_dir"], interactive)
   VMCTapeLibCustomizations.one_day_course(directory_names["one_day_dir"], interactive)
   VMCTapeLibCustomizations.set_discourse_track_numbers(directory_names["library_root"], interactive)
@@ -174,6 +172,11 @@ def parse_command_line(options)
             "\n\t\tDo the tape library-to-sonos customizations. Reading the filename " +
                "constants from the file <FILENAME>\n\n") do |file_name|
       options[:customize] = file_name
+               end
+    
+    opts.on("-b DIRNAME", "--browse DIRNAME", 
+            "\n\t\t Prints all mp3 files found below DIRNAME and their tags. Used as input to the checker function.\n\n") do |dir_name|
+      options[:report] = dir_name
             end
   end 
     
@@ -188,11 +191,17 @@ def parse_command_line(options)
 end
 
 parse_command_line(my_options)
-puts my_options
 # OK, we got valid commandline options so now lets get to work:
 
+# if the report option is specified, run it and then exit
+if my_options.has_key?(:report)
+  VMCTapeLibCustomizations.report(my_options[:report])
+  exit
+end
 
-  puts "about to run options"
+
+print "about to run options: "
+puts my_options
 # you cannot use the individual modification options if you have also specified the full shebang option
 if my_options.has_key?(:customize)
   if my_options.count > 3
