@@ -71,12 +71,16 @@ module VMCTapeLibCustomizations
          begin
            FileUtils.mkdir(new_am_chantings_dir) #create the new_am_chantings_dir, but don't bomb out if it already exists
          rescue Errno::EEXIST
-           puts "#{new_am_chantings_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{new_am_chantings_dir} "
+           puts "#{new_am_chantings_dir} already exists, copying morning chanting files to it. This will overwrite any files in #{new_am_chantings_dir} "
          end
          FileUtils.cp(file_list, new_am_chantings_dir)
 
          puts "setting the track number to 1 and changing the names of the duplicated morning chantings files."
          file_list = select_files("#{new_am_chantings_dir}/*.mp3")
+         if file_list.count == 0
+           raise IOError, "No mp3 files found under #{new_am_chantings_dir}. Exiting program"
+         end
+           
          set_metadata(file_list, {"track" =>1})
 
          file_list.each do |file_name|
@@ -116,7 +120,7 @@ module VMCTapeLibCustomizations
   def self.customization_dir_exists?(lib_root,customization_dir_name)
     custom_dirs = select_files("#{lib_root}/**/#{customization_dir_name}") 
     desired_cust_dir = File.join(lib_root, customization_dir_name)
-    number_of_dirs_found = custom_dirs.length
+    number_of_dirs_found = custom_dirs.count
 
     if number_of_dirs_found == 0
       puts "I don't see a #{customization_dir_name} directory in the directory tree below #{lib_root}"
@@ -218,7 +222,9 @@ module VMCTapeLibCustomizations
    #####################################
    def self.hindi(from_dir, to_dir, interactive=true)
      make_change = true
+     puts "in hindi. from_dir= #{from_dir}, to_dir= #{to_dir}"
      if Dir.exists?(from_dir)
+       puts "from_dir exists"
        if interactive
          make_change = false
          puts "Creating a duplicate of the Hindi PDIs for 10day courses."
@@ -236,32 +242,34 @@ module VMCTapeLibCustomizations
            puts "OK. Exiting program."
            raise SystemExit, "User requested quit while copying hindi pdi's from #{from_dir} to #{to_dir}."
          end
-         
-         if make_change
-           puts "copying hindi PDI's to #{to_dir} "
-           file_list = select_files("#{from_dir}/**/D[0-9][0-9]_2030_*10d.mp3")
-           if file_list.count >= 1
-             begin
-               FileUtils.mkdir(to_dir) #create the to_dir, but don't bomb out if it already exists
-             rescue Errno::EEXIST
-               puts "#{to_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{to_dir} "
-             end
-             file_list.each do |f|
-               FileUtils.cp(f, to_dir)
-             end
-             file_list = select_files("#{to_dir}/*.mp3")
-             file_list.each do |f|
-               set_metadata(f, {"album" => "_Hindi PDIs"})
-             end
-           else
-             raise IOError, "No files matching D[0-9][0-9]_2030_*10d.mp3 were found in the Hindi PDI directory #{from_dir}."
+       end
+
+       if make_change
+         puts "copying hindi PDI's to #{to_dir} "
+         file_list = select_files("#{from_dir}/**/D[0-9][0-9]_2030_*10d.mp3")
+         if file_list.count >= 1
+           begin
+             FileUtils.mkdir(to_dir) #create the to_dir, but don't bomb out if it already exists
+           rescue Errno::EEXIST
+             puts "#{to_dir} already exists, copying hindi PDI's to it. This will overwrite any files in #{to_dir} "
            end
+           file_list.each do |f|
+             FileUtils.cp(f, to_dir)
+           end
+           file_list = select_files("#{to_dir}/*.mp3")
+           puts "about to set the metadata for #{file_list.count} hindi pdis."
+           file_list.each do |f|
+             set_metadata(f, {"album" => "_Hindi PDIs"})
+           end
+         else
+           raise IOError, "No files matching D[0-9][0-9]_2030_*10d.mp3 were found in the Hindi PDI directory #{from_dir}."
          end
        end
      else
        raise IOError, "Hindi PDI directory #{from_dir} could not be found."
      end
    end
+
 
    ########################################
    # 
@@ -274,19 +282,63 @@ module VMCTapeLibCustomizations
      fix_tracks = easy_album_change(work_dir, "_Workers Metta", interactive)
      if fix_tracks
        file_list = select_files("#{work_dir}/*.mp3")
+       if file_list.count == 0
+         raise IOError, "No workers metta files found under #{work_dir}. Exiting."
+       end
        set_metadata(file_list, { "track" => 50})
        set_metadata("#{work_dir}/2105_WM_English_2005.mp3", {"track" => 1} ) #set english workers metta to be first track
      end
    end
 
    ########################################
-   # Tag special files in the one day course directory
+   # Tag  files in the one day course directory
    # as being part of the One Day Course
    # album.
    #
+   # Since one day courses exist in different
+   # languages we need to find the files to tag recursively
+   # and cant just use easy_album_change (which only handles mp3 files in 
+   # the directory passed in.
+   #
    #####################################
    def self.one_day_course(work_dir, interactive)
-     easy_album_change(work_dir, "One Day Course", interactive)
+     make_change = true
+     puts "setting the album title for all one day course files under directory #{work_dir} to 'One Day Course'"
+     file_list = []
+
+     if Dir.exists?(work_dir)
+       work_dir.chomp("/") #remove the trailing / if there is one
+
+       file_list = select_files("#{work_dir}/**/*.mp3")
+       if file_list.count ==  0
+         puts "There were no mp3 files found under the directory #{work_dir}. So, no files were tagged with the album 'One Day Course'"
+         return false
+       end
+
+       if interactive
+         make_change = false
+         print "Are you sure that you want to set the album for all #{file_list.count} one day course files under #{work_dir} to 'One Day Course'? (y,n,q): "
+         answer = gets.chomp
+         case answer
+         when /\by\b|\byes\b/i # matches yes or y case insensitive
+           make_change = true
+         when /\bn\b|\bno\b/i # matches n or no
+           puts "OK, I won't change the album for the files under the #{work_dir} to 'One Day Course'."
+
+         when /\bq\b|\bquit\b/i # matches q or quit
+           puts "OK. Exiting program."
+           raise SystemExit, "User requested quit while setting the album tags to 'One Day Course' in #{work_dir}."
+         end
+       end
+
+       if make_change
+         set_metadata(file_list, {"album" => 'One Day Course'})
+       end
+
+     else
+       raise IOError, "While setting the album tag to 'One Day Course', directory #{work_dir} could not be found."
+     end
+     return make_change
    end
  
    #########################################
@@ -369,6 +421,9 @@ module VMCTapeLibCustomizations
     file_list = []
     raise IOError, "directory #{lib_root} can't be found" unless Dir.exists?(lib_root)
     file_list = select_files("#{lib_root}/**/D[0-9][0-9]_*.mp3")
+    if file_list.count == 0
+      raise IOError, "No files under #{lib_root} seem to match the glob #{lib_root}/**/D[0-9][0-9]_*.mp3"
+    end
     album_name = ""
     temp_hash = {}
 
@@ -384,7 +439,7 @@ module VMCTapeLibCustomizations
       temp_hash.each do |file_name, album_tag|
         set_metadata(file_name, {"album" => album_tag})
       end
-    else #dry_run == true
+    else     
       puts "The standard album fix function interprets interactive mode as a dry run mode."
       puts "None of the standard album fixes were made."
       puts "If you weren't in dry run mode the following changes would be made:"
@@ -393,18 +448,35 @@ module VMCTapeLibCustomizations
     puts "finished the standard album name fix."
   end
 
-   #######################################
-   # doc:
-   # easy_album_change
-   #
-   # Sets all mp3 files in the work_dir to have the album tag of album_name.
-   # Asks for confirmation depending on the interactive flag (confirmation required 
-   # if interactive = true).
+  #######################################
+  # Print out every mp3 file below the passed
+  # in directory and it's tags
+  #####################################
+  def self.report(root_dir)
+    file_list = []
+    tags = [ "album", "artist", "track", "title"]
+    file_list = select_files("#{root_dir}/**/*.mp3")
+
+    if file_list.length == 0
+      puts "No .mp3 files found below root: #{root_dir}"
+       raise IOError, "empty file list found with match string: #{match_string}"
+    end
+
+    print_metadata(file_list, tags)
+  end
+
+  #######################################
+  # Set all mp3 files in the work_dir to have the album tag of album_name.
+  # Asks for confirmation depending on the interactive flag (confirmation required 
+  # if interactive = true).
    #
    def self.easy_album_change(work_dir, album_name, interactive = true)
      make_change = true
      if Dir.exists?(work_dir)
        file_list = select_files("#{work_dir}/*.mp3")
+       if file_list.count == 0
+         raise IOError, "No mp3 files were found under the #{work_dir}. Exiting"
+       end
 
        if interactive
          make_change = false
@@ -435,19 +507,16 @@ module VMCTapeLibCustomizations
    #######################################
    # Takes a glob type string and returns
    # an array of files which match it.
+   #
+   # Does no error handling. Simply returns
+   # an empty array if there are no matches.
    def self.select_files(match_string)
      file_list=[]
      Dir.glob(match_string) do |name|
        file_list << name unless File.directory?(name)
      end
-     if file_list.length == 0
-       pp "empty file list found with match string: #{match_string}"
-     else
-       pp "file_list is #{file_list.count} long."
-     end
      file_list
    end
-
 
   #################################################
   # Takes a file name or list of file names as well
@@ -496,9 +565,34 @@ module VMCTapeLibCustomizations
     end
   end
 
-   private_class_method :select_files
-   private_class_method :set_metadata
-   private_class_method :easy_album_change
-###    private_class_method :print_metadata
-### 
+  ###############################################
+  # Print out the requested metadata / tag data for
+  # the passed in media files
+  #
+  # The format of this printout is easily readable
+  # with YAML. Please do not change it without
+  # testing that our checker utilities still function.
+  #################################################
+  def self.print_metadata(file_list, tag_list)
+    file_list = [*file_list]
+    tag_list = [*tag_list]
+    file_list.each do |name|
+      ok = TagLib::FileRef.open(name) do |f|
+        output = "#{name}: \n"
+        tag_list.each do |t|
+          output << "   #{t}: #{f.tag.send(t)}\n"
+        end
+        puts output
+      end
+      if ok == false then
+        puts "uh-oh. There was a problem opening #{name}"
+      end
+    end
+  end
+
+  private_class_method :select_files
+  private_class_method :set_metadata
+  private_class_method :easy_album_change
+  private_class_method :print_metadata
+
 end
