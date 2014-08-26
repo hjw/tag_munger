@@ -41,7 +41,7 @@ Children_EN     # no files yet, see BKL
 45Day_EN        # has day 30-45 only for 45 Day with 10 days anapana
 45Day_Khmer_EN 	# 45-day bilingual Khmer-English instructions and separate en and khmer audio discourses
 45Day15A_EN     # has day 1-45 of 45 day course with 15 days anapana
-60Day_EN        # for 2015/2016
+60Day_EN        # no files yet, for 2015/2016
 
 # other
 SonosLibrary    # the entire WWL audio library of MP3 files, navigate by Music Library > Files, instead of Music Library > Albums.

@@ -177,7 +177,15 @@ else
 fi
 
 #--- make 9Day_EN links
-echo TO-DO make links for 9Day_EN
+SHAREDIR="$SHAREBASE/9Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'9-Day English/Discourses'
+	ln -sfn  $AUDIOBASE/'9-Day English/Instructions'
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make STP_EN links
 SHAREDIR="$SHAREBASE/STP_EN"
@@ -310,6 +318,11 @@ fi
 
 #--- make 60Day_EN links
 echo TO-DO make links for 60Day_EN
+#  note -- WWL_2014 has:
+#  $AUDIOBASE/'60 Day Course Sets/60D Burmese'
+#  $AUDIOBASE/'60 Day Course Sets/60D Spanish'
+#  'At present, the translated teaching sets are using existing 45-day recordings supplemented by these 60-day recordings.'
+
 
 
 echo end of script
