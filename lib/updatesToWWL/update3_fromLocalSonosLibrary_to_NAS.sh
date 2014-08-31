@@ -13,10 +13,11 @@ NAS_IP="$1" # e.g. 192.168.1.191
 if [ $# -ne 1 ]
 then
     echo "Syntax: $0 {NAS IP address or host name}"
-    echo "Copy tagged Sonos Libraries from local volume to NAS drive"
-    echo "Uses 'rsync' to update files in SonosLibrary, VideoLibrary, and iPodLibrary folders on NAS, 
-    echo "Removes files not found on source folders.
-    echo "Example: $0 192.168.1.123"
+    echo "    Copy tagged Sonos Libraries from local volume to NAS drive"
+    echo "    Uses 'rsync' to update files in SonosLibrary, VideoLibrary, and iPodLibrary folders on NAS"
+    echo "    Removes files not found on source folders."
+    echo "    Example: $0 192.168.1.123"
+    echo ">>>>Nothing Copied<<<<<"
     exit
 fi
 
