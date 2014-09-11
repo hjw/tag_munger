@@ -17,9 +17,9 @@
 SHAREBASE='/share/HDA_DATA' # Destination: base directory of shared folders where we create links
 AUDIOBASE='/share/HDA_DATA/SonosLibrary' # Source: base directory of audio library
 # common and custom and important file and folder paths put here
-GONG_FOR_SONOS_ALARM=$AUDIOBASE/'Sonos Customizations/VMC Alarms/gong_sonos_alarm.mp3' # has silence at start and end for Sonos alarm use
+STD_GONGS_AND_SONOS_ALARM=$AUDIOBASE/'Sonos Customizations/VMC Alarms' # has silence at start and end for Sonos alarm use
 STD_BENEFITS_OF_DS=$AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_English_Benefits_of_D.Service.mp3'
-STD_GROUP_SITTINGS=$AUDIOBASE/'Groupsittings/GSs English-only/' # album with group sittings for between courses
+STD_GROUP_SITTINGS=$AUDIOBASE/'Groupsittings/GSs English-only' # album with group sittings for between courses
 STD_SPECIAL_CHANTINGS=$AUDIOBASE/'Special Chantings'
 STD_WORKERSMETTA=$AUDIOBASE/'Workers Metta/Workers Metta 2005' # all languages of Workers Metta
 STD_MORNING_CHANTINGS=$AUDIOBASE/'10 Day Morning Chantings' # tagged with "10 Day Morning Chanting" for a separate album
@@ -45,7 +45,7 @@ then
 	ln -sfn  "$STD_WORKERSMETTA"
 	ln -sfn  "$STD_MORNING_CHANTINGS"
 	ln -sfn  "$STD_BENEFITS_OF_DS"
-	ln -sfn  "$GONG_FOR_SONOS_ALARM"
+	ln -sfn  "$STD_GONGS_AND_SONOS_ALARM"
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
 fi
@@ -177,7 +177,15 @@ else
 fi
 
 #--- make 9Day_EN links
-echo TO-DO make links for 9Day_EN
+SHAREDIR="$SHAREBASE/9Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+	ln -sfn  $AUDIOBASE/'9-Day English/Discourses'
+	ln -sfn  $AUDIOBASE/'9-Day English/Instructions'
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 #--- make STP_EN links
 SHAREDIR="$SHAREBASE/STP_EN"
@@ -310,6 +318,11 @@ fi
 
 #--- make 60Day_EN links
 echo TO-DO make links for 60Day_EN
+#  note -- WWL_2014 has:
+#  $AUDIOBASE/'60 Day Course Sets/60D Burmese'
+#  $AUDIOBASE/'60 Day Course Sets/60D Spanish'
+#  'At present, the translated teaching sets are using existing 45-day recordings supplemented by these 60-day recordings.'
+
 
 
 echo end of script
