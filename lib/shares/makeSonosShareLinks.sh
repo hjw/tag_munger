@@ -206,6 +206,7 @@ then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Burmese/STP E-Burmese Instructions'
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Burmese/STP Burmese Discourses'
+	ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Discourses'
 	ln -sfn  $AUDIOBASE/'Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3'
 	#ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Burmese_Benefits_of_D.Service.mp3'  # does not exist in Burmese
 else
@@ -219,6 +220,7 @@ then
 	cd $SHAREDIR; echo making links in $SHAREDIR
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Khmer/STP E-Khmer Instructions'
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Khmer/STP Khmer Discourses'
+	ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Discourses'
 	ln -sfn  $AUDIOBASE/'Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3'
 else
 	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
