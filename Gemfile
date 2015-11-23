@@ -1,3 +1,3 @@
 source 'http://rubygems.org'
 
-gem 'taglib-ruby', '0.5.0'
+gem 'taglib-ruby' , '~> 0.7.0'
