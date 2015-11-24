@@ -84,6 +84,11 @@ module VMCTapeLibCustomizations
          set_metadata(file_list, {"track" =>1})
 
          file_list.each do |file_name|
+           # Not sure why we do this. Match data will match any file 
+           # doesn't end with a one or two digit number followed by d.mp3
+           # ie: <anything>_##d.mp3 or <anything>_#d.mp3
+           #  if we are trying to match <anything>_10d.mp3 whe should match 
+           #  it with /.*_10d.mp3$/
            #don't add _10d to the name if it's already there
            if !( /.*_\d{1,2}d.mp3$/.match(file_name) )
              FileUtils.mv file_name, file_name.sub(".mp3","_10d.mp3")

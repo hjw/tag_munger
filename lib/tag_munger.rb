@@ -6,8 +6,9 @@ require 'pp'
 
 ###########################################
 # TagMunger is a class that we use to manipulate mp3 tags.
-# It uses the external library 'taglib' and has a number of
-# methods which are very specific to the things that VMC chooses
+# It uses the external module, media_editor, to set and get mp3 tags.
+# The fix_album_tags function is where we make the
+# specific changes to the metadata that VMC chooses
 # to do to mimic the old minidisc organization when using
 # the Sonos system.
 class TagMunger
@@ -84,6 +85,8 @@ class TagMunger
   #########################################
   # Global fixing of album tags. (Runs in the librayr_root directory tree)
   #
+  # This puts all files for a particular day of a course into one album.
+  # It also adjusts the tracknumber for certain files to 
   # Set all mp3 files that start with D## to have an 
   # album tag of D##_courseType.  
   # 
