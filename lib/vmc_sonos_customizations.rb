@@ -379,13 +379,13 @@ module VMCTapeLibCustomizations
 
        if interactive
          make_change = false
-         print "Are you sure that you want to set the track numbers for all #{file_list.count} discourse files under #{work_dir} to #{track_num}? (y,n,q): "
-         answer = gets.chomp
-         case answer
+           print "Are you sure that you want to set the track numbers for all #{file_list.count} discourse files under #{library_root} to #{track_num}? (y,n,q): "
+           answer = gets.chomp
+           case answer
          when /\by\b|\byes\b/i # matches yes or y case insensitive
            make_change = true
          when /\bn\b|\bno\b/i # matches n or no
-           puts "OK, I won't change the track numbers for the discourse files under the #{work_dir} to #{track_num}."
+           puts "OK, I won't change the track numbers for the discourse files under the #{library_root} to #{track_num}."
 
          when /\bq\b|\bquit\b/i # matches q or quit
            puts "OK. Exiting program."
