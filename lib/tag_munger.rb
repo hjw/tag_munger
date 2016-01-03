@@ -6,8 +6,9 @@ require 'pp'
 
 ###########################################
 # TagMunger is a class that we use to manipulate mp3 tags.
-# It uses the external library 'taglib' and has a number of
-# methods which are very specific to the things that VMC chooses
+# It uses the external module, media_editor, to set and get mp3 tags.
+# The fix_album_tags function is where we make the
+# specific changes to the metadata that VMC chooses
 # to do to mimic the old minidisc organization when using
 # the Sonos system.
 class TagMunger
@@ -84,6 +85,8 @@ class TagMunger
   #########################################
   # Global fixing of album tags. (Runs in the librayr_root directory tree)
   #
+  # This puts all files for a particular day of a course into one album.
+  # It also adjusts the tracknumber for certain files to 
   # Set all mp3 files that start with D## to have an 
   # album tag of D##_courseType.  
   # 
@@ -103,6 +106,37 @@ class TagMunger
     file_list.each do |name|
       w = (File.basename(name)).split("_")
       album_name = [ w[0],  w[-1].chomp(".mp3")].join("_")
+      temp_hash[name] = album_name
+    end
+
+    if !@dry_run then
+      puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
+      temp_hash.each do |file_name, album_tag|
+        set_metadata(file_name, album:album_tag)
+      end
+    else #@dry_run == true
+      puts "You are in dry run mode.\nIf you weren't in dry run mode the following changes would be made:"
+      pp temp_hash.sort
+    end
+    puts "finished the global album name fix."
+  end #end.fix_album_tags
+  #########################################
+  # Global fixing of album tags for international tape library usage. (Runs in the librayr_root directory tree)
+  #
+  # It also adjusts the tracknumber for certain files to 
+  # Set all mp3 files that start with D## to have an 
+  # album tag of the filename without the .mp3 extentsion
+  # 
+  def international_fix_album_tags
+    file_list = []
+    file_list = select_files("#{@library_root}/**/D[0-9][0-9]_*.mp3")
+
+    album_name = ""
+    temp_hash = {}
+
+    # create album_name from file name 
+    file_list.each do |name|
+      album_name = (File.basename(name)).chomp(".mp3")
       temp_hash[name] = album_name
     end
 

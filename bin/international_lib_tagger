@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+
+############################
+# tag_utility.rb
+# A small utility which will let you display album and track 
+# tag information from mp3 files and will allow you to apply
+# the international tape library's album name generator for mp3 files in the directory tree
+# 
+
+require 'optparse'
+require_relative '../lib/tag_munger' #the class that handles our munging
+
+VERSION="version 0.0.1"
+
+options = {}
+# defaults
+options[:directory] = "."
+options[:dry_run] = true
+
+
+if ARGV.count == 0 #print help text if no options supplied
+  ARGV << "--help"
+end
+
+OptionParser.new do |opts|
+  opts.banner = "\nUsage: tape_lib_tagger [options] \n\t\t***tag_utility defaults to dry_run/report mode***\n\t\t***Use --write-changes option to actually change tags***"
+  opts.version = VERSION
+
+###   opts.on("-b [FLAGS]","--browse [FLAGS]",\
+###           "\n\t\tDisplay the current mp3 metadata.\n\t\tTakes optional, comma separated list of tags you're interested in (album,artist,track)") do |flags|
+###     options[:browse] = flags || true
+###   end
+
+  opts.on("-a","--albums", "Set album name tag to the same as the file name for mp3 files and output them to the screen, this is what the international tape library needs. You need to specify the write-changes option to actually change the album tags.") do |a|
+    # runs the generic album name generator. Does a dry run by default
+    options[:albums] = a
+  end
+
+  opts.on("--write-changes", "Changes the tags in the files (takes you out of dry run mode)\n\n") do |w|
+    options[:dry_run] = false
+  end
+  
+  opts.on("-d LIBRARY_ROOT","--directory LIBRARY_ROOT", "Where to find the mp3 files") do |library_root|
+    options[:directory] = library_root
+  end
+
+  opts.on("-e FILENAME", "--edit FILENAME", "Interactive editing of tags for given file. Accepts limited globbing on filename.") do |file_name|
+    options[:edit] = file_name
+  end
+  
+end.parse!
+
+tagger = TagMunger.new(options[:directory], options[:dry_run])
+
+if options.has_key?(:browse)
+  if options[:browse].class == String
+    which_tags =  options[:browse].split(",")
+  end
+  tagger.browseLibrary(which_tags)
+end
+
+if options.has_key?(:albums)
+   tagger.international_fix_album_tags
+end #end.albums option
+
+
+if options.has_key?(:edit)
+  puts "--edit option was specified with filename: #{options[:edit]}"
+  tagger.interactive_edit(options[:edit])
+end

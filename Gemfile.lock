@@ -1,10 +1,10 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    taglib-ruby (0.5.0)
+    taglib-ruby (0.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  taglib-ruby (= 0.5.0)
+  taglib-ruby (~> 0.7.0)

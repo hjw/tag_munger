@@ -174,10 +174,6 @@ def parse_command_line(options)
       options[:customize] = file_name
                end
     
-    opts.on("-b DIRNAME", "--browse DIRNAME", 
-            "\n\t\t Prints all mp3 files found below DIRNAME and their tags. Used as input to the checker function.\n\n") do |dir_name|
-      options[:report] = dir_name
-            end
   end 
     
   begin # enclose the commandline parsing in a rescue clause so that I can output
