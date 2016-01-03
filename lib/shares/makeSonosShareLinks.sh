@@ -207,6 +207,8 @@ then
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Burmese/STP E-Burmese Instructions'
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP Burmese/STP Burmese Discourses'
 	ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Discourses'
+	# include D09 English final metta because it is played after closing?  Or not because closing has FM included?
+	ln -sfn  $AUDIOBASE/'STP Course Sets/STP English-only/STP English Instructions/D09/D09_0615_Final_Metta_Eng_STP.mp3'
 	ln -sfn  $AUDIOBASE/'Special Chantings/Satipatthana_Sutta_Jan_1985_wSM.mp3'
 	#ln -sfn  $AUDIOBASE/'Dhamma Service/Benefits of Dhamma Service/D10_2030_Burmese_Benefits_of_D.Service.mp3'  # does not exist in Burmese
 else
