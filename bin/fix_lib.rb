@@ -169,7 +169,7 @@ def parse_command_line(options)
     end
 
     opts.on( "-c","--vmc_mods FILENAME", 
-            "\n\t\tDo the tape library-to-sonos customizations. Reading the filename " +
+            "\n\t\t********==> Do the tape library-to-sonos customizations. Reading the filename " +
                "constants from the file <FILENAME>\n\n") do |file_name|
       options[:customize] = file_name
                end

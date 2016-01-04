@@ -86,13 +86,13 @@ class TagMunger
   # Global fixing of album tags. (Runs in the librayr_root directory tree)
   #
   # This puts all files for a particular day of a course into one album.
-  # It also adjusts the tracknumber for certain files to 
+  # It also sets the title of the track to be the same as the file name (minus .mp3)
   # Set all mp3 files that start with D## to have an 
   # album tag of D##_courseType.  
   # 
   # The course type is scraped from the last word in the file name (after the last '_" underbar and before the final '.').
   #
-  # ie: fix_album_tags sets album tag to *D01_10d* for a file named *D01_1910_Disc_English_10d.mp3*
+  # ie: fix_album_tags sets album tag to *D01_10d* and title tag to D01_1910_Disc_English_10d for a file named *D01_1910_Disc_English_10d.mp3*
   def fix_album_tags
     file_list = []
     file_list = select_files("#{@library_root}/**/D[0-9][0-9]_*.mp3")
@@ -100,28 +100,37 @@ class TagMunger
     album_name = ""
     temp_hash = {}
 
-    # create album_name from file name 
-    # "D09_0855_GS_10d.mp3" gets album "D09_10d"
-    # "D09_0855_GS_STP.mp3" gets album "D09_STP"
+
     file_list.each do |name|
-      w = (File.basename(name)).split("_")
-      album_name = [ w[0],  w[-1].chomp(".mp3")].join("_")
+      album_name = (File.basename(name)).chomp(".mp3")
       temp_hash[name] = album_name
     end
 
     if !@dry_run then
-      puts "New album data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
-      temp_hash.each do |file_name, album_tag|
-        set_metadata(file_name, album:album_tag)
+      puts "New title data prepared, now hold on while I write it into the #{file_list.count} mp3 files."
+      temp_hash.each do |file_name, title_tag|
+        set_metadata(file_name, title:title_tag)
+        # create album_name from file name 
+        # "D09_0855_GS_10d.mp3" gets album "D09_10d"
+        # "D09_0855_GS_STP.mp3" gets album "D09_STP"
+        w = title_tag.split("_")
+        album_name = [ w[0],  w[-1]].join("_")
+        set_metadata(file_name, album:album_name)
       end
     else #@dry_run == true
       puts "You are in dry run mode.\nIf you weren't in dry run mode the following changes would be made:"
-      pp temp_hash.sort
+      temp_hash.sort
+      temp_hash.each do |file_name, title_tag|
+        w = title_tag.split("_")
+        album_name = [ w[0],  w[-1]].join("_")
+        print("file: #{file_name}, album: #{album_name}, title: #{title_tag}\n")
+      end
     end
+
     puts "finished the global album name fix."
   end #end.fix_album_tags
   #########################################
-  # Global fixing of album tags for international tape library usage. (Runs in the librayr_root directory tree)
+  # fixing of album tags for international tape library usage. (Runs in the librayr_root directory tree)
   #
   # It also adjusts the tracknumber for certain files to 
   # Set all mp3 files that start with D## to have an 
