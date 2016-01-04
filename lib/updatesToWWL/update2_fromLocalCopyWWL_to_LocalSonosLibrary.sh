@@ -1,5 +1,5 @@
 # make a local copy called SonosLibrary on DharaWWL silver 1gb portable HD, making slight rearrangements
-WWL_FOLDER='WWD_2014'
+WWL_FOLDER='WWD_2015'
 
 mkdir -v /Volumes/DharaWWL/SonosLibrary
 mkdir -v /Volumes/DharaWWL/SonosLibrary/Sonos\ Customizations/

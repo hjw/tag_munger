@@ -5,7 +5,7 @@
 #
 # make a local copy called SonosLibrary on DharaWWL silver 1gb portable HD, making slight rearrangements
 PORTABLE='/Volumes/DharaWWL'
-WWL_FOLDER='WWD_2014'
+WWL_FOLDER='WWD_2015'
 WWL_Exceptions ='WWL_Exceptions'
 VMC_ADDITIONAL ='VMC_Additional_Files'
 MP3_FOLDER='/Users/Shared/MP3\ Library'
@@ -16,7 +16,7 @@ mkdir -v $MP3_FOLDER/$VMC_ADDITIONAL
 
 #rsync -avz $PORTABLE/$WWL_FOLDER/WWL_HDD/* $MP3_FOLDER
 #rsync -avz $PORTABLE/$WWL_FOLDER/$WWL_Exceptions/* $MP3_FOLDER/$WWL_Exceptions
-rsync -avz --dry-run $PORTABLE/$VMC_ADDITIONAL/* $MP3_FOLDER/$VMC_ADDITIONAL
+rsync -avz $PORTABLE/$VMC_ADDITIONAL/* $MP3_FOLDER/$VMC_ADDITIONAL
 
 # rsync -avz --delete-after --dry-run /Volumes/DharaWWL/WWD_2014/WWL_HDD /Users/Shared/MP3\ Library |less
 # chmod -R g-w /Users/Shared/MP3\ Library/
