@@ -321,12 +321,16 @@ else
 fi
 
 #--- make 60Day_EN links
-echo TO-DO make links for 60Day_EN
-#  note -- WWL_2014 has:
-#  $AUDIOBASE/'60 Day Course Sets/60D Burmese'
-#  $AUDIOBASE/'60 Day Course Sets/60D Spanish'
-#  'At present, the translated teaching sets are using existing 45-day recordings supplemented by these 60-day recordings.'
-
+SHAREDIR="$SHAREBASE/60Day_EN"
+if [ -d $SHAREDIR ]
+then
+	cd $SHAREDIR; echo making links in $SHAREDIR
+  ln -sfn $AUDIOBASE/'60 Day Course Sets/60D English only/60D English Discourses' 
+  ln -sfn $AUDIOBASE/'60 Day Course Sets/60D English only/60D English Instructions' 
+	ln -sfn  "$STD_SPECIAL_CHANTINGS"
+else
+	echo "$FATAL folder $SHAREDIR does not exist"; exit 100
+fi
 
 
 echo end of script
