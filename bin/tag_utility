@@ -47,6 +47,10 @@ OptionParser.new do |opts|
   opts.on("-e FILENAME", "--edit FILENAME", "Interactive editing of tags for given file. Accepts limited globbing on filename.") do |file_name|
     options[:edit] = file_name
   end
+  opts.on("-t","--tapeLib", "Use this option to set the album tag and track title tag for use in the international tape library. Output them to the screen. You need to specify the write-changes option to actually change the tags.") do |a|
+    # runs the international fix album function. Does a dry run by default
+    options[:tape_lib] = a
+  end
   
 end.parse!
 
@@ -61,6 +65,10 @@ end
 
 if options.has_key?(:albums)
   tagger.fix_album_tags
+end
+
+if options.has_key?(:tape_lib)
+  tagger.international_fix_album_tags
 end
 
 if options.has_key?(:edit)
