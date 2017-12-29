@@ -7,7 +7,7 @@
 #   /share/HDA_DATA/iPodLibrary   (holds DharaWWL/WWL_Exceptions/*)
 #
 SOURCE_VOLUME="/Volumes/DharaWWL"
-WWL_FOLDER='WWD_2014'
+WWL_FOLDER='WWL_2017'
 NAS_IP="$1" # e.g. 192.168.1.191
 #
 if [ $# -ne 1 ]
