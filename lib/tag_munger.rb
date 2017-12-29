@@ -132,13 +132,14 @@ class TagMunger
   #########################################
   # fixing of album tags for international tape library usage. (Runs in the librayr_root directory tree)
   #
-  # It also adjusts the tracknumber for certain files to 
+  # It should, but doesn't also sets the track title to be the same as the file name
   # Set all mp3 files that start with D## to have an 
   # album tag of the filename without the .mp3 extentsion
   # 
   def international_fix_album_tags
     file_list = []
     file_list = select_files("#{@library_root}/**/D[0-9][0-9]_*.mp3")
+      puts "There were #{file_list.count} mp3 files."
 
     album_name = ""
     temp_hash = {}
@@ -156,9 +157,16 @@ class TagMunger
       end
     else #@dry_run == true
       puts "You are in dry run mode.\nIf you weren't in dry run mode the following changes would be made:"
+      puts "There were #{file_list.count} mp3 files."
       pp temp_hash.sort
+     # temp_hash.sort
+     # temp_hash.each do |file_name, title_tag|
+      #  print("file: #{file_name}, album: #{title_tag}, title: #{title_tag}\n")
+      end
     end
-    puts "finished the global album name fix."
+
+
+    puts "finished the international library  album name fix."
   end #end.fix_album_tags
 
   #####################################
