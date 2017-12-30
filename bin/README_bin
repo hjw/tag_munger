@@ -1,0 +1,40 @@
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+fix_lib.rb ----> has a vmc mods run flag to do all the things necessary for our changes
+
+ bin/fix_lib.rb --vmc_mods bin/hjwConfig.yml
+
+or
+ bin/fix_lib.rb --vmc_mods bin/hjwConfig.yml --quiet
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tag_utility -----> use this for running std album fix on a directory and interactive editing of a given file
+
+$ ./tag_utility -d /Users/hjw/Projects/commandLineRuby/tag_utility  -e *.mp3
+--edit option was specified with filename: jo.mp3
+Current metadata for file:
+jo.mp3: 
+   title: 
+   album: 
+   artist: 
+   track: 0
+   genre: 
+What tag would you like to change? (title, album, artist, track, genre): 
+Quit [q], or continue [c]? Current metadata for file:
+jo.mp3: 
+   title: 
+   album: 
+   artist: 
+   track: 0
+   genre: 
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# copy from local to NAS
+rsync -avz --exclude=.DS_Store "/Volumes/pc/NewFromBarry/60Day/60d English mp3 files/English only"/* admin@10.0.0.3:/share/HDA_DATA/SonosLibrary/"60 Day Course Sets/60D English only"
+
+# link commands to run from NAS (has correct folder names)
+cd /share/HDA_DATA/60Day_EN
+ln -sfn /share/HDA_DATA/SonosLibrary/'60 Day Course Sets/60D English only/60D English Discourses'
+ln -sfn /share/HDA_DATA/SonosLibrary/'60 Day Course Sets/60D English only/60D English Instructions'
